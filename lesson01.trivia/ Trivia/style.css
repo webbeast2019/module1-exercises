@@ -1,0 +1,29 @@
+body {
+    text-align: center;
+    background-image: url("https://www.quickanddirtytips.com/sites/default/files/images/2499/question-mark2.jpg");
+    background-repeat: no-repeat;
+    background-size: 30%;
+}
+
+ol {
+    
+    justify-content: center;
+    list-style-position: inside;
+    text-align: center;
+}
+
+li:hover {
+    transform: scale(1.3)
+}
+
+#answerInput {
+    text-align: center;
+    width: 400px;
+}
+
+button {
+    margin-top: 20px;
+    animation-iteration-count: 2;
+}
+
+
