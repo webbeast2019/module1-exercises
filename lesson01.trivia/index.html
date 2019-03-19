@@ -1,22 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+<html>
 <head>
-    <title>Simple Trivia</title>
     <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <style>
-        body {
+    <link href="style.css" type="text/css" rel="stylesheet">
+    <title>Trivia</title>
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        }
-    </style>
 </head>
 <body>
-    <header>
-        <h1>Simple Trivia</h1>
-    </header>
-    <main>
-        Content Here
-    </main>
+ 
+     <article class="firstBlock" align="center" >
+               <h1 id="title">TRIVIA</h1>  
+     </article>   
+     <article class="block" align="center" >
+        <div>
+            <p id="question">What is the color of panda? </p>
+            <button class="button" onclick="checkAnswer(true)">Red</button><br>
+            <button class="button" onclick="checkAnswer(false)">Black</button><br>
+            <button class="button" onclick="checkAnswer(false)">Brown</button><br>
+            <button class="button" onclick="checkAnswer(true)">Black and white</button><br>
+            <button class="button" onclick="checkAnswer(false)">White</button><br>
+        </div>
+
+        <script type="text/javascript">
+      
+           function checkAnswer(trueOrFalse){
+            if(trueOrFalse === true){
+                //alert("you're right");
+               document.getElementById("rightAanswer").innerHTML = "The answer is correct!";
+                document.getElementById("worngAnswer").innerHTML = "";
+            }else{
+               //alert("you're wrong");
+               document.getElementById("worngAnswer").innerHTML =  "The answer is incorrect!";
+                document.getElementById("rightAanswer").innerHTML ="";
+            }
+           }
+         
+        </script>
+<p id="rightAanswer" ></p>
+<p id="worngAnswer" ></p>
+ </article>
 </body>
 </html>
