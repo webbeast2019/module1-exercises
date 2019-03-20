@@ -7,16 +7,121 @@
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <style>
         body {
-
+            background-color: #FFF;
+            font-family: 'Arial', sans-serif;
+            margin: 0 auto;
         }
+
+        header {
+            background-color: #46954a;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+        }
+
+        h1 {
+            color: #FFF;
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            margin: 20px;
+        }
+
+        .container{
+            position: relative;
+            top: 100px;
+            text-align: center;
+            width: 214px;
+            margin: 0 auto;
+        }
+
+        input[type='button'] {
+            width: 50px;
+            height: 50px;
+            margin: 2px 0;
+            font-size: 16px;
+        }
+
+        #inputarea {
+            height: 50px;
+            width: 100%;
+            background-color: #999;
+            color: #fff;
+            font-size: 16px;
+            padding: 12px 20px;
+            margin-bottom: 4px;
+            box-sizing: border-box;
+            border-radius: 4px;
+            border: 1px solid #777;
+        }
+
+        .operator {
+            background-color: #46954a;
+            color: #FFF;
+        }
+
+        #clear {
+            width: 104px;
+        }
+        
     </style>
 </head>
 <body>
+    <script type="text/javascript">
+        function putValue (value) {
+            document.getElementById('inputarea').value += value;
+        };
+
+        function calculate () {
+            const expression = document.getElementById('inputarea').value;
+            if(expression !== '') {
+                const result = eval(expression);
+	            document.getElementById('inputarea').value = result;
+            }
+        };
+
+        function clearInput () {
+            document.getElementById('inputarea').value = "";
+        };
+        
+    </script>
     <header>
         <h1>Web Calculator</h1>
     </header>
     <main>
-        Content Here
+        <div class="container">
+            <form name="calculator" id="calculator">
+                <input type="text" name="inputarea" id="inputarea">
+                <div>
+                    <input type="button" class="operand" id="one" value="1" onclick="putValue(this.value)">
+                    <input type="button" class="operand" id="two" value="2" onclick="putValue(this.value)">
+                    <input type="button" class="operand" id="three" value="3" onclick="putValue(this.value)">
+                    <input type="button" class="operator" id="plus" value="+" onclick="putValue(this.value)">
+                </div>
+                <div>
+                    <input type="button" class="operand" id="four" value="4" onclick="putValue(this.value)">
+                    <input type="button" class="operand" id="five" value="5" onclick="putValue(this.value)">
+                    <input type="button" class="operand" id="six" value="6" onclick="putValue(this.value)">
+                    <input type="button" class="operator" id="minus" value="-" onclick="putValue(this.value)">
+                </div>
+                <div>
+                    <input type="button" class="operand" id="seven" value="7" onclick="putValue(this.value)">
+                    <input type="button" class="operand" id="eight" value="8" onclick="putValue(this.value)">
+                    <input type="button" class="operand" id="nine" value="9" onclick="putValue(this.value)">
+                    <input type="button" class="operator" id="multiply" value="*" onclick="putValue(this.value)">
+                </div>
+                <div>
+                    <input type="button" class="operand" id="zero" value="0" onclick="putValue(this.value)">
+                    <input type="button" class="operand" id="decimal" value="." onclick="putValue(this.value)">
+                    <input type="button" id="equal" value="=" onclick="calculate()">
+                    <input type="button" class="operator" id="divide" value="/" onclick="putValue(this.value)">
+                </div>
+                <div class="bottom">
+                    <input type="button" id="clear" value="Clear" onclick="clearInput()">
+                </div>
+            </form>	
+        </div>
     </main>
 </body>
 </html>
