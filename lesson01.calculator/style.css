@@ -1,0 +1,136 @@
+.calc{
+    border: 1px solid black;
+    width: 420px;
+    height: 673px;
+    border-radius: 10%;
+    position: relative; 
+}
+
+.screen {
+    position: absolute;
+    border: 1px solid black;
+    border-radius: 10%;
+    width: 400px;
+    height: 100px;
+    left: 10px;
+    top: 35px;
+    font-size: 30px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 90px; 
+}
+
+button{
+    position: absolute;
+    border: 1px solid black;
+    text-align: center;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    font-size: 30px;
+}
+
+button:hover {
+  background-color: #eaeaea;
+}
+
+button.clear:hover {
+  background-color: LightSalmon;
+}
+
+button.delete:hover {
+  background-color: Tomato;
+}
+
+/*fisrt buttons row*/
+.clear{
+    top: 158px;
+    left: 20px;
+    background-color: coral;
+}
+.delete{
+    top: 158px;
+    left: 320px;
+    background-color: red;
+}
+
+/*second buttons row*/
+.one {
+    top: 261px;
+    left: 20px;
+}
+.two{
+    top: 261px;
+    left: 120px;
+}
+.three{
+    top: 261px;
+    left: 220px;
+}
+.multi{
+    top: 261px;
+    left: 320px;
+}
+
+/*third buttons row*/
+.four{
+    top:364px;
+    left: 20px;
+}
+.five{
+    top:364px;
+    left: 120px;
+}
+.six{
+    top:364px;
+    left: 220px;
+}
+.div{
+    top:364px;
+    left: 320px;
+}
+
+/*fourth buttons row*/
+.seven{
+    top: 467px;
+    left: 20px;
+}
+
+.eight{
+    top: 467px;
+    left: 120px;
+}
+.nine{
+    top: 467px;
+    left: 220px;
+}
+.minus{
+     top: 467px;
+    left: 320px;
+}
+
+/*fifth buttons row*/
+.point{
+    top: 570px;
+    left: 20px;
+}
+.zero{
+    top: 570px;
+    left: 120px;
+}
+.equal{
+    top: 570px;
+    left: 220px;
+}
+.plus{
+    top: 570px;
+    left: 320px;
+}
+
+
+
+
+
+
+
+
