@@ -1,0 +1,42 @@
+.button{
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 60px;
+    width: 70px;
+    position: relative;
+    top: 75px;
+    left: 500px;
+    z-index: 2;
+    
+}
+
+.button:hover{
+    background-color: aliceblue;
+}
+
+#calc{
+    position: relative;
+    top: 60px;
+    left: 505px;
+    width: 320px;
+    height: 50px; 
+    border:1px black solid;
+    font-size: 40px;
+    z-index: 4;
+    
+    
+}
+
+
+.background{
+    background-color: skyblue;
+    position: absolute;
+    top: 60px;
+    left: 505px;
+    z-index: 1;
+    width: 338px;
+    height: 495px;
+    border:1px black solid;
+}
+  

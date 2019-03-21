@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Trivia</title>
+        
+        <link rel="stylesheet" href="style.css">
+        
+    </head>>
+        
+    <body>
+        
+        <div class="question">
+            <h1>Question: What is my name?</h1> 
+
+            <ol>
+                <li>David</li>
+                <li>Moshe</li>
+                <li>Eli</li>
+                <li>Sharon</li>
+                <li>Limor</li>
+                <li>Anat</li>
+                <li>Reut</li>
+            </ol>
+    
+            Answer: <input id="Answer">
+    
+            
+            <button type="button" id="button" onclick="IsTrue()">Submit</button>
+        
+
+        </div>
+        
+
+        <script>
+                function IsTrue() {
+                    var x;
+                    x = document.getElementById("Answer").value;
+                    if (x == 2) {
+                        window.alert("Your Answer is Correct")
+                    }
+                    else {
+                        window.alert("Your Answer is Not Correct")
+                    }
+                    
+                }
+        </script>
+        
+        
+    </body>
+</html>
