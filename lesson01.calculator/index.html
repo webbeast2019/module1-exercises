@@ -7,16 +7,68 @@
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <style>
         body {
-
-        }
+			  text-align: center;
+		}
+		table {
+			  margin: auto;
+			  width: 295px;
+			  height: 325px;
+		}
+		input {
+			  left: 5px;
+			  top: 5px;
+			  width: 60px;
+			  height: 50px;
+			  background-color: #fff;
+			  font-size: 20px;
+		}
+		#answer {
+			  width: 280px;
+			  font-size: 26px;
+			}
+		.operator {
+			  background-color: #cee9ea;
+			}
     </style>
 </head>
 <body>
     <header>
-        <h1>Web Calculator</h1>
+        <h1>Calculator</h1>
     </header>
     <main>
-        Content Here
+        <form name="calculator">
+         <table>
+            <tr>
+               <td colspan="4">
+                  <input type="text" name="answer" id="answer" disabled>
+               </td>
+            </tr>
+            <tr>
+               <td><input type="button" name="one" value="1" onclick="calculator.answer.value += '1'"></td>
+               <td><input type="button" name="two" value="2" onclick="calculator.answer.value += '2'"></td>
+               <td><input type="button" name="three" value="3" onclick="calculator.answer.value += '3'"></td>
+               <td><input type="button" class="operator" name="plus" value="+" onclick="calculator.answer.value += '+'"></td>
+            </tr>
+            <tr>
+               <td><input type="button" name="four" value="4" onclick="calculator.answer.value += '4'"></td>
+               <td><input type="button" name="five" value="5" onclick="calculator.answer.value += '5'"></td>
+               <td><input type="button" name="six" value="6" onclick="calculator.answer.value += '6'"></td>
+               <td><input type="button" class="operator" name="minus" value="-" onclick="calculator.answer.value += '-'"></td>
+            </tr>
+            <tr>
+               <td><input type="button" name="seven" value="7" onclick="calculator.answer.value += '7'"></td>
+               <td><input type="button" name="eight" value="8" onclick="calculator.answer.value += '8'"></td>
+               <td><input type="button" name="nine" value="9" onclick="calculator.answer.value += '9'"></td>
+               <td><input type="button" class="operator" name="times" value="x" onclick="calculator.answer.value += '*'"></td>
+            </tr>
+            <tr>
+               <td><input type="button" class="operator" name="clear" value="C" onclick="calculator.answer.value = ''"></td>
+               <td><input type="button" name="zero" value="0" onclick="calculator.answer.value += '0'"></td>
+               <td><input type="button" class="operator" name="equal" value="=" onclick="calculator.answer.value = eval(calculator.answer.value)"></td>
+               <td><input type="button" class="operator" name="div" value="/" onclick="calculator.answer.value += '/'"></td>
+            </tr>
+         </table>
+      </form>
     </main>
 </body>
 </html>
