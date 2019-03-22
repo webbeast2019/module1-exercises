@@ -1,22 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <title>Web Calculator</title>
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <style>
-        body {
-
-        }
-    </style>
+	<title>calculator</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Web Calculator</h1>
-    </header>
-    <main>
-        Content Here
-    </main>
+	<p id="title">Calculator</p>
+	<div>
+	<article class="block" >
+		<form name="form">
+			 <input id="input" name="textvew" placeholder=" 0" >
+		    </form>
+
+		<table>
+		  <tr>
+		    <th><button class="button" onclick="clean()">CE</button></th>	
+		    <th><button class="button" onclick="delLast()" > C </button></th>
+		    <th><button class="button" onclick="getNumbers('(')">(</button></th>
+		    <th><button class="button" onclick="getNumbers(')')">)</button></th>
+		    
+		  </tr>
+		  <tr>
+			<th><button class="button" onclick="getNumbers(7)">7</button></th>
+			<th><button class="button" onclick="getNumbers(8)">8</button></th>
+			<th><button class="button" onclick="getNumbers(9)">9</button></th>
+			<th><button class="button" onclick="getNumbers('/')" >÷</button></th>
+		  </tr>
+		  <tr>
+			<th><button class="button" onclick="getNumbers(4)">4</button></th>
+			<th><button class="button" onclick="getNumbers(5)">5</button></th>
+			<th><button class="button" onclick="getNumbers(6)">6</button></th>
+			<th><button class="button" onclick="getNumbers('*')" >×</button></th>
+		  </tr>
+		  	<th><button class="button" onclick="getNumbers(1)">1</button></th>
+			<th><button class="button" onclick="getNumbers(2)">2</button></th>
+			<th><button class="button" onclick="getNumbers(3)">3</button></th>		
+			
+			<th><button class="button" onclick="getNumbers('-')" >-</button></th>
+		  <tr>
+			<th><button class="button" onclick="getNumbers('.')">.</button></th>
+			<th><button class="button" onclick="getNumbers(0)">0</button></th>
+			<th><button class="button" onclick="getNumbers('+')" >+</button></th>
+			<th><button class="button" onclick="result()" > = </button></th>
+		  </tr>
+		</table>
+	</article>
+	</div>
+<script type="text/javascript">
+
+
+	function getNumbers(numbers){
+		 document.form.textvew.value=document.form.textvew.value+numbers;
+	}
+
+    function result(){
+		var summ = document.form.textvew.value;
+		let total = eval(summ);
+		if(total === Infinity){document.form.textvew.value=""; alert("Canno't divide by zero");}
+		else if(total ===''){
+			alert("Please put some number");
+		}
+			else{document.form.textvew.value=total} 	
+	}
+
+	function clean(){
+ 		 document.form.textvew.value="";
+ 	}
+ 	function delLast(){
+ 		var i =[document.form.textvew.value.length];
+ 		document.form.textvew.value = document.form.textvew.value.substr(0 ,i-1);
+ 	}
+ 	
+ 	</script>
 </body>
 </html>
