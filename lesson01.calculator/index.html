@@ -6,17 +6,146 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <style>
-        body {
-
+        @font-face {
+            font-family: digitaldream;
+            src: url(fonts/digitaldream.ttf);
+        }
+        body{
+            height: 90vh;
+            background-color:#2F3945;
+			display: grid;
+            align-content:center;
+        }
+        header{
+            justify-self: center;
+        }
+        main {
+			display: grid;
+            justify-self: center;
+            max-width:500px;
+            width:100%;
+			grid-gap: 6px 6px;
+			grid-template-columns: repeat(4,1fr);
+			/* grid-template-rows: 45px repeat(5,1fr); */
+			grid-template-areas: 
+				"s s s s"
+				"c ans pow pi"
+				"one two thr m"
+				"fou fiv six d"
+				"sev eig nin r"
+                "p zer e a";
+            background-color:#BDBDBD;
+            border-radius: 15px;
+            padding: 30px;
+        }
+        .calc_button{
+            border-radius: 5px;
+            padding:10px 0px;
+        }
+        #calc_screen{
+            font-family: digitaldream;
+            color:#9FFD32;
+            background-color:black;
+            padding:15px;
+            overflow:hidden;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Web Calculator</h1>
-    </header>
     <main>
-        Content Here
+        <div id="calc_screen" style="grid-area: s;"></div>
+        <button class="calc_button" id="" onclick="clearCalc();" style="grid-area: c;">C</button>
+        <button class="calc_button" id="" onclick="numPadAns();" style="grid-area: ans;">ANS</button>
+        <button class="calc_button" id="" onclick="actionclicked('^');" style="grid-area: pow;">^</button>
+        <button class="calc_button" id="" onclick="numPadPi();" style="grid-area: pi;">&#x1D745;</button>
+        <button class="calc_button" id="" onclick="numPadEnter('1');" style="grid-area: one;">1</button>
+        <button class="calc_button" id="" onclick="numPadEnter('2');" style="grid-area: two;">2</button>
+        <button class="calc_button" id="" onclick="numPadEnter('3');" style="grid-area: thr;">3</button>
+        <button class="calc_button" id="" onclick="numPadEnter('4');" style="grid-area: fou;">4</button>
+        <button class="calc_button" id="" onclick="numPadEnter('5');" style="grid-area: fiv;">5</button>
+        <button class="calc_button" id="" onclick="numPadEnter('6');" style="grid-area: six;">6</button>
+        <button class="calc_button" id="" onclick="numPadEnter('7');" style="grid-area: sev;">7</button>
+        <button class="calc_button" id="" onclick="numPadEnter('8');" style="grid-area: eig;">8</button>
+        <button class="calc_button" id="" onclick="numPadEnter('9');" style="grid-area: nin;">9</button>
+        <button class="calc_button" id="" onclick="numPadEnter('0');" style="grid-area: zer;">0</button>
+        <button class="calc_button" id="" onclick="numPadDot();" style="grid-area: p;">.</button>
+        <button class="calc_button" id="" onclick="actionclicked('=');" style="grid-area: e;">=</button>
+        <button class="calc_button" id="" onclick="actionclicked('+');" style="grid-area: a;">+</button>
+        <button class="calc_button" id="" onclick="actionclicked('-');" style="grid-area: r;">-</button>
+        <button class="calc_button" id="" onclick="actionclicked('/');" style="grid-area: d;">&#xF7;</button>
+        <button class="calc_button" id="" onclick="actionclicked('*');" style="grid-area: m;">&#xd7;</button>
     </main>
+
+    <script>
+            var totalNum, currentNum, calcAction,ans;
+            var calcScreen = document.getElementById("calc_screen");
+            clearCalc();
+    
+            function printValue(val){
+                calcScreen.innerHTML=val;
+                return;
+            }
+            function numPadEnter(digit){
+                currentNum+=digit;
+                printValue(currentNum);
+                return;
+            }
+            function numPadDot(){
+                if(!currentNum.includes(".")){
+                    currentNum+=(currentNum==""?"0":"");
+                    numPadEnter(".");
+                    return;
+                }
+                return;
+            }
+            function clearCalc(){
+                totalNum=0;
+                ans=0;
+                currentNum="";
+                calcAction="+";
+                printValue("0");
+                return;
+            }
+            function numPadPi(){
+                currentNum="3.14159265358979323";
+                printValue(currentNum);
+            }
+            function numPadAns(){
+                currentNum=ans;
+                printValue(currentNum);
+            }
+            function actionclicked(selectedAction){
+                if(currentNum==""){
+                    totalNum=ans;
+                }else{
+                    switch (calcAction){
+                    case "=":
+                        totalNum=(parseFloat(currentNum));
+                        break;
+                    case "-":
+                        totalNum=totalNum-parseFloat(currentNum);
+                        break;
+                    case "/":
+                        totalNum=totalNum/parseFloat(currentNum);
+                        break;
+                    case "*":
+                        totalNum=totalNum*parseFloat(currentNum);
+                        break;
+                    case "^":
+                        totalNum=Math.pow(totalNum, parseFloat(currentNum));
+                        break;
+                    default:
+                        totalNum=totalNum+parseFloat(currentNum);
+                    }
+                }
+                if(selectedAction=="="){
+                    ans=totalNum;
+                }
+                printValue(totalNum);
+                currentNum="";
+                calcAction=selectedAction;
+            }
+        </script>
 </body>
 </html>
