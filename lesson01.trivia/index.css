@@ -1,0 +1,21 @@
+body {
+    font-family: 'Raleway', sans-serif;
+}
+
+img {
+    height: 170px;
+}
+
+h3 {
+    color: orange;
+}
+
+.wrong {
+    color: red;
+    display: none;
+}
+
+.true {
+    color: green;
+    display: none;
+}

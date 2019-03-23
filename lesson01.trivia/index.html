@@ -1,22 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Simple Trivia</title>
+    <title>Shelly's Trivia</title>
     <meta charset="utf-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <style>
-        body {
 
-        }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="./index.css">
 </head>
-<body>
+<body class="container">
     <header>
-        <h1>Simple Trivia</h1>
+        <h1 class="my-3 text-info text-center display-4">My Super Trivia - Shelly</h1>
     </header>
     <main>
-        Content Here
+        <h3 class="display-5">Tom yum is a type of hot and sour soup that originated in which country?</h3>
+
+        <form class="text-dark">
+            <div class="custom-control custom-radio">
+                <input class="custom-control-input" name="choice" type="radio" id="Thailand" value="Thailand">
+                <label class="custom-control-label" for="Thailand">Thailand <i class="fas fa-check true Thailand"></i></label>  
+            </div> 
+           
+            <div class="custom-control custom-radio">
+                <input class="custom-control-input" name="choice" type="radio" id="Japan" value="Japan">
+                <label class="custom-control-label" for="Japan">Japan <i class="fas fa-times wrong Japan"></i></label> 
+            </div>
+
+            <div class="custom-control custom-radio">
+                <input class="custom-control-input" name="choice" type="radio" id="China" value="China">
+                <label class="custom-control-label" for="China">China <i class="fas fa-times wrong China"></i></label> 
+            </div>
+          
+            <div class="custom-control custom-radio">
+                <input class="custom-control-input" required name="choice" type="radio" id="Korea" value="Korea">
+                <label class="custom-control-label" for="Korea">South Korea <i class="fas fa-times wrong Korea"></i></label> 
+            </div>
+
+            <div class="custom-control custom-radio">
+                <input class="custom-control-input" name="choice" type="radio" id="Taiwan" value="Taiwan">
+                <label class="custom-control-label" for="Taiwan">Taiwan <i class="fas fa-times wrong Taiwan"></i></label> 
+            </div>
+
+            <div class="custom-control custom-radio">
+                <input class="custom-control-input" name="choice" type="radio" id="Vietnam" value="Vietnam">
+                <label class="custom-control-label" for="Vietnam">Vietnam <i class="fas fa-times wrong Vietnam"></i></label> 
+            </div>
+          
+
+            <button class="btn btn-sm btn-success mt-3" type="submit">Submit </button>
+        </form>
+
+        <div class="text-center">
+            <img src="./T_19.jpg">
+        </div>
     </main>
+
+    <script src="./index.js" type="text/javascript"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
