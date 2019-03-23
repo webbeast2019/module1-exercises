@@ -82,7 +82,7 @@
         <button id = "mltpy" class = "ops"  onclick="showInput(this)" value='*'>*</button>
         <button type="button" id = "zero"  onclick="showInput(this)" value="0">0</button>
         <button type="button" id = "dot"  onclick="showInput(this)" value=".">.</button>
-        <button type="button" id= "equal" onclick="calculate(this)" value = "=">=</button>
+        <button type="button" id= "equal"  value = "=">=</button>
         <button id = "divert" class = "ops"  onclick="showInput(this)" value ='/' >/</button>
         </div>
     
@@ -90,6 +90,7 @@
     </main>
     <script>
 
+        document.getElementById('equal').addEventListener('click',calculate);
         let clearFlag = false;
         /*calculate expression after user press on '='*/
         function calculate(element){
