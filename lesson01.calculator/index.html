@@ -1,22 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Web Calculator</title>
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <style>
-        body {
-
-        }
-    </style>
+  <title>Web Calculator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <style>
+    h1 {
+      width: 300px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    main {
+      height: 400px;
+      width: 500px;
+      background-color: white;
+      margin: 0 auto;
+    }
+    #calc {
+      border: 1px solid black;
+      padding: 15px;
+      width: 275px;
+      height: 275px;
+      margin: 0 auto;
+    }
+    #calcRe {
+        /* border: 1px solid black; */
+        background-color: white;
+        width: 250px;
+        height: 25px;
+        font-size: 15px;
+        text-align: left;
+    }
+    #calcInput {
+        border: 1px solid black;
+        background-color: white;
+        width: 250px;
+        height: 30px;
+        font-size: 25px;
+    }
+    table, th, td {
+      font-family: Arial, sans-serif;
+    }
+    input {
+      height: 50px;
+      width: 50px;
+    }
+    input#num0 {
+      width: 105px;
+    }
+    input#opEql, input#opClr {
+      height: 105px;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Web Calculator</h1>
-    </header>
-    <main>
-        Content Here
-    </main>
+  <header>
+    <h1>Web Calculator</h1>
+  </header>
+  <main>
+    <div id="calc">
+	  <table>
+	    <thead>
+          <tr>
+              <th colspan="5" id="calcRe"></th>
+          </tr>
+          <tr>
+              <th colspan="5" id="calcInput">0</th>
+          </tr>
+	    </thead>
+	    <tbody>
+	      <tr>
+		    <td><input type="button" id="num7" value="7" onclick="input(this.value)"></td>
+			<td><input type="button" id="num8" value="8" onclick="input(this.value)"></td>
+			<td><input type="button" id="num9" value="9" onclick="input(this.value)"></td>
+			<td><input type="button" id="opDiv" value=" / " onclick="input(this.value)"></td>
+			<td rowspan="2"><input type="button" id="opClr" value="C" onclick="clearCalc()"></td>
+		  </tr>
+		  <tr>
+		    <td><input type="button" id="num4" value="4" onclick="input(this.value)"></td>
+			<td><input type="button" id="num5" value="5" onclick="input(this.value)"></td>
+			<td><input type="button" id="num6" value="6" onclick="input(this.value)"></td>
+			<td><input type="button" id="opMul" value=" * " onclick="input(this.value)"></td>
+		  </tr>
+		  <tr>
+		    <td><input type="button" id="num1" value="1" onclick="input(this.value)"></td>
+			<td><input type="button" id="num2" value="2" onclick="input(this.value)"></td>
+			<td><input type="button" id="num3" value="3" onclick="input(this.value)"></td>
+			<td><input type="button" id="opMin" value=" - " onclick="input(this.value)"></td>
+			<td rowspan="2"><input type="button" id="opEql" value="=" onclick="calculator()"></td>
+		  </tr>
+		  <tr>
+		    <td colspan="2"><input type="button" id="num0" value="0" onclick="input(this.value)"></td>
+			<td><input type="button" id="opDot" value="." onclick="input(this.value)"></td>
+			<td><input type="button" id="opPls" value=" + " onclick="input(this.value)"></td>
+		  </tr>
+	    </tbody>
+	  </table>
+    </div>
+    
+  </main>
+  <script>
+
+    var eqvPrs = true;
+    var dotFlag = false;
+    
+    function clearCalc() {
+        document.getElementById("calcInput").innerHTML = 0;
+        document.getElementById("calcRe").innerHTML = null;
+        eqvPrs = true;
+        dotFlag = false;
+    }
+
+    function input(value) {
+      let onScreen = document.getElementById("calcInput").innerHTML;
+      let onScreenLest = onScreen[onScreen.length - 2];
+      
+      switch (onScreenLest) {
+
+        case "*":
+
+          dotFlag = false;
+
+          if (value === " + " || value === " - " || value === " / ") {
+            document.getElementById("calcInput").innerHTML = onScreen.slice(0, onScreen.length - 3);
+          }
+
+          break;
+
+        case "+":
+
+          dotFlag = false;
+
+          if (value === " * " || value === " - " || value === " / ") {
+            document.getElementById("calcInput").innerHTML = onScreen.slice(0, onScreen.length - 3);
+          }
+
+          break;
+
+        case "-":
+
+          dotFlag = false;
+
+          if (value === " + " || value === " * " || value === " / ") {
+            document.getElementById("calcInput").innerHTML = onScreen.slice(0, onScreen.length - 3);
+          }
+
+          break;
+
+        case "/":
+
+          dotFlag = false;
+
+          if (value === " + " || value === " - " || value === " * ") {
+            document.getElementById("calcInput").innerHTML = onScreen.slice(0, onScreen.length - 3);
+          }
+
+          break;
+      }
+      
+      if ((onScreen[onScreen.length - 1] === "." && onScreen[onScreen.length - 1] === value) ) {
+        return;
+      }
+
+      if (onScreenLest === value[1] && (value === " + " || value === " - " || value === " * " || value === " / ")) {
+        dotFlag = false;
+        return;
+      }
+
+      if (eqvPrs) {
+        document.getElementById("calcRe").innerHTML = onScreen;
+
+        if (value === " + " || value === " - " || value === " * " || value === " / ") {
+          document.getElementById("calcInput").innerHTML += value;
+        } else {
+          dotFlag = false;
+          document.getElementById("calcRe").innerHTML = "Ans = " + onScreen;
+          document.getElementById("calcInput").innerHTML = value;
+        }
+        eqvPrs = false;
+
+      } else {
+
+        if (dotFlag && value === ".") {
+          return;
+        }
+
+        if (value === ".") {
+          dotFlag = true;
+        }
+
+        document.getElementById("calcInput").innerHTML += value;
+      }
+    }
+
+    function calculator() {
+      eqvPrs = true;
+      let str = document.getElementById("calcInput").innerHTML;
+
+      if (str === "Error") {
+        return;
+      }
+
+      let strAction = str[str.length - 2];
+
+      if (strAction === "+" || strAction === "-" || strAction === "*" || strAction === "/" ) {
+        eqvPrs = false;
+        return;
+      }
+
+      let dot = str[str.length - 1];
+      let postDotAction = str[str.length - 3];
+
+      if(dot === "." && (postDotAction === "+" || postDotAction === "-" || postDotAction === "*" || postDotAction === "/" )) {
+        eqvPrs = false;
+        document.getElementById("calcInput").innerHTML = "Error";
+        return;
+      }
+
+      let result = eval(str);
+      document.getElementById("calcRe").innerHTML = str + " = ";
+      document.getElementById("calcInput").innerHTML = result;
+	}
+	
+  </script>  
 </body>
 </html>
