@@ -6,17 +6,77 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <style>
-        body {
+        body{
+            background-color: darkkhaki;
+           
+            
 
         }
+        h2 {
+            font-weight: normal;
+            color:brown;
+            text-align: center;
+
+
+        }
+        h1{
+            text-align: center;
+            color: brown;
+        }
+        button{
+            border-radius: 100em;
+            color:brown;
+            background-color: chartreuse; 
+            
+        }
+
+        input{
+            color:crimson;
+            background-color: cornsilk;
+            border-radius: 100em;
+            position: relative;
+            left: -5%;
+            text-align: center;
+        }
+        ol{
+        text-align: left;
+        width: 40%;
+        position:relative;
+        left: 40%; 
+        }
     </style>
+    <script>
+        function handleAnswer(id){
+            let userAnswer  = document.getElementById("userAnswer");
+            let answerText = document.getElementById("answer");
+            if(userAnswer.value === "4" ){
+                answerText.innerHTML = "True";
+            }
+            else{
+                answerText.innerHTML = "Wrong";
+            }
+        }
+            
+        
+    </script>
 </head>
 <body>
     <header>
-        <h1>Simple Trivia</h1>
+        <h1>My Very Short Trivia</h1>
     </header>
+    <h2>What singer gave Marilyn Monroe a white poodle named Mafia?</h2>
     <main>
-        Content Here
+        <ol id="list">
+            <li>Jay-z</li>
+            <li>Snoop Dog</li>
+            <li>Luciano Pavarotti</li>
+            <li>Frank Sinatra</li>
+            <li>Louis Armstrong</li>
+            <input type="number" id = "userAnswer" onclick="document.getElementById('answer').innerHTML=''">
+            <br><button onclick="handleAnswer(this)" >Submit Answer</button></br>
+            <p id = "answer"></p>
+            
+        </ol>
     </main>
 </body>
 </html>
