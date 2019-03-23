@@ -45,20 +45,7 @@
         left: 40%; 
         }
     </style>
-    <script>
-        function handleAnswer(id){
-            let userAnswer  = document.getElementById("userAnswer");
-            let answerText = document.getElementById("answer");
-            if(userAnswer.value === "4" ){
-                answerText.innerHTML = "True";
-            }
-            else{
-                answerText.innerHTML = "Wrong";
-            }
-        }
-            
-        
-    </script>
+   
 </head>
 <body>
     <header>
@@ -72,11 +59,26 @@
             <li>Luciano Pavarotti</li>
             <li>Frank Sinatra</li>
             <li>Louis Armstrong</li>
-            <input type="number" id = "userAnswer" onclick="document.getElementById('answer').innerHTML=''">
-            <br><button onclick="handleAnswer(this)" >Submit Answer</button></br>
+            <input type="number" id ="userAnswer" onclick="document.getElementById('answer').innerHTML=''">
+            <br><button id= "answerSub" >Submit Answer</button></br>
             <p id = "answer"></p>
             
         </ol>
     </main>
 </body>
+<script>
+    document.getElementById("answerSub").addEventListener("click", function handleAnswer(id){
+         let userAnswer  = document.getElementById("userAnswer");
+         let answerText = document.getElementById("answer");
+         if(userAnswer.value === "4" ){
+             answerText.innerHTML = "True";
+         }
+         else{
+             answerText.innerHTML = "Wrong";
+         }
+ 
+     })
+         
+     
+ </script>
 </html>

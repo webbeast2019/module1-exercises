@@ -6,9 +6,55 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <style>
-        body {
+        header{
+            text-align: center;
+        }
+        #screen{
+            display: block;
+            width:400px;
+            height: 100px;
+            font-size: 30px;
+
 
         }
+        #clear{
+            width:400px;
+
+        }
+        main{
+            width:700px;
+            height: 700px;
+          
+            margin:auto;
+            padding-left: 250px;
+           align-content: center;
+            
+        }
+        button{
+            border-radius: 5px;
+            font-size: 30px;
+
+        
+        }
+        .calculator{
+            position: absolute;
+            margin: auto;
+            
+        }
+        
+        .numbers{
+            position: absolute;
+            display:grid;
+            border: black solid;
+            width:400px;
+            height:400px;
+            grid-template-columns:repeat(4,1fr);
+            grid-template-rows:repeat(4,1fr); 
+           
+            
+        }
+
+
     </style>
 </head>
 <body>
@@ -16,7 +62,59 @@
         <h1>Web Calculator</h1>
     </header>
     <main>
-        Content Here
+      <div class="calculator">
+        <input type="text" id="screen" value="" disabled />
+        <span>
+            <button type="button" id= "clear" onclick="clearScreen()"> C</button>
+        </span>
+        <div class="numbers">
+        <button type="button" id = "seven"onclick="showInput(this)"  value="7">7</button>
+        <button type="button" id= "eight" onclick="showInput(this)" value="8">8</button>
+        <button type="button" id= "nine"  onclick="showInput(this)" value="9">9</button>
+        <button id = "add" class = "ops"  onclick="showInput(this)" value='+'>+</button>
+        <button type="button" id= "four"  onclick="showInput(this)" value="4">4</button>
+        <button type="button" id= "five"  onclick="showInput(this)" value="5">5</button>
+        <button type="button" id = "six"  onclick="showInput(this)" value="6">6</button>
+        <button id = "sub" class = "ops" onclick="showInput(this)" value="-">-</button>
+        <button type="button" id = "one"  onclick="showInput(this)" value="1">1</button>
+        <button type="button" id = "two"  onclick="showInput(this)"  value="2">2</button>
+        <button type="button" id = "three"  onclick="showInput(this)" value="3">3</button>
+        <button id = "mltpy" class = "ops"  onclick="showInput(this)" value='*'>*</button>
+        <button type="button" id = "zero"  onclick="showInput(this)" value="0">0</button>
+        <button type="button" id = "dot"  onclick="showInput(this)" value=".">.</button>
+        <button type="button" id= "equal" onclick="calculate(this)" value = "=">=</button>
+        <button id = "divert" class = "ops"  onclick="showInput(this)" value ='/' >/</button>
+        </div>
+    
+    </div>
     </main>
+    <script>
+
+        let clearFlag = false;
+        /*calculate expression after user press on '='*/
+        function calculate(element){
+            let result =  eval(document.getElementById('screen').value);
+            document.getElementById('screen').value = result;
+            clearFlag=true;
+        }
+        /*called for every number or operation click event*/
+        function showInput(element){
+            displayElem = document.getElementById('screen'); 
+            if(clearFlag){
+                displayElem.value = "";
+                clearFlag=false;
+
+            }
+            document.getElementById('screen').value += element.value;
+
+        }
+        
+        function clearScreen(){
+            document.getElementById("screen").value = '';
+            clearFlag=false;
+        }
+    
+    </script>
+
 </body>
 </html>
