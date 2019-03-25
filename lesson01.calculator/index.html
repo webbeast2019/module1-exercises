@@ -1,22 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Web Calculator</title>
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <style>
-        body {
-
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="autor" content="Ben Edery">
+    <link rel="stylesheet" href="style.css">
+    <title>My Calc</title>
 </head>
 <body>
-    <header>
-        <h1>Web Calculator</h1>
-    </header>
-    <main>
-        Content Here
-    </main>
+    <form action="">
+        <table>
+                <tr>
+                    <input id="display" type="text">
+                </tr>
+                <br>
+                <tr>
+                    <input class="btn ac" type="button" value="AC">
+                    <input class="btn orange" type="button" value="/" onclick="operatorBtn('/')">
+                </tr>
+                <br>
+                <tr>
+                    <input class="btn" type="button" value="7" onclick="count('7')">
+                    <input class="btn" type="button" value="8"onclick="count('8')">
+                    <input class="btn" type="button" value="9" onclick="count('9')">
+                    <input class="btn orange" type="button" value="*" onclick="operatorBtn('*')">
+                </tr>
+                <br>
+                <tr>
+                    <input class="btn" type="button" value="4" onclick="count('4')">
+                    <input class="btn" type="button" value="5" onclick="count('5')">
+                    <input class="btn" type="button" value="6" onclick="count('6')">
+                    <input class="btn orange" type="button" value="-" onclick="operatorBtn('-')">
+                </tr>
+                <br>
+                <tr>
+                    <input class="btn" type="button" value="1" onclick="count('1')">
+                    <input class="btn" type="button" value="2" onclick="count('2')">
+                    <input class="btn" type="button" value="3"  onclick="count('3')">
+                    <input class="btn orange" type="button" value="+" onclick="operatorBtn('+')">
+                </tr>
+                <br>
+                <tr>
+                    <input class="btn" type="button" value="0" onclick="count('0')">
+                    <input class="btn" type="button" value="." onclick="count('.')">
+                   <input class="btn result" type="button" value="=" onclick="result(counter)">
+                </tr>
+        </table>
+    </form>
+    <script src="script2.js"></script>
 </body>
 </html>
