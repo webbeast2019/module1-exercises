@@ -68,22 +68,22 @@
             <button type="button" id= "clear" onclick="clearScreen()"> C</button>
         </span>
         <div class="numbers">
-        <button type="button" id = "seven"onclick="showInput(this)"  value="7">7</button>
-        <button type="button" id= "eight" onclick="showInput(this)" value="8">8</button>
-        <button type="button" id= "nine"  onclick="showInput(this)" value="9">9</button>
-        <button id = "add" class = "ops"  onclick="showInput(this)" value='+'>+</button>
-        <button type="button" id= "four"  onclick="showInput(this)" value="4">4</button>
-        <button type="button" id= "five"  onclick="showInput(this)" value="5">5</button>
-        <button type="button" id = "six"  onclick="showInput(this)" value="6">6</button>
-        <button id = "sub" class = "ops" onclick="showInput(this)" value="-">-</button>
-        <button type="button" id = "one"  onclick="showInput(this)" value="1">1</button>
-        <button type="button" id = "two"  onclick="showInput(this)"  value="2">2</button>
-        <button type="button" id = "three"  onclick="showInput(this)" value="3">3</button>
-        <button id = "mltpy" class = "ops"  onclick="showInput(this)" value='*'>*</button>
-        <button type="button" id = "zero"  onclick="showInput(this)" value="0">0</button>
-        <button type="button" id = "dot"  onclick="showInput(this)" value=".">.</button>
+        <button type="button" id = "seven"onclick="showAndProccesInput(this)"  value="7">7</button>
+        <button type="button" id= "eight" onclick="showAndProccesInput(this)" value="8">8</button>
+        <button type="button" id= "nine"  onclick="showAndProccesInput(this)" value="9">9</button>
+        <button id = "add" class = "ops"  value='+'>+</button>
+        <button type="button" id= "four"  onclick="showAndProccesInput(this)" value="4">4</button>
+        <button type="button" id= "five"  onclick="showAndProccesInput(this)" value="5">5</button>
+        <button type="button" id = "six"  onclick="showAndProccesInput(this)" value="6">6</button>
+        <button id = "sub" class = "ops" value="-">-</button>
+        <button type="button" id = "one"  onclick="showAndProccesInput(this)" value="1">1</button>
+        <button type="button" id = "two"  onclick="showAndProccesInput(this)"  value="2">2</button>
+        <button type="button" id = "three"  onclick="showAndProccesInput(this)" value="3">3</button>
+        <button id = "mltpy" class = "ops"  value='*'>*</button>
+        <button type="button" id = "zero"  onclick="showAndProccesInput(this)" value="0">0</button>
+        <button type="button" id = "dot"  onclick="showAndProccesInput(this)" value=".">.</button>
         <button type="button" id= "equal"  value = "=">=</button>
-        <button id = "divert" class = "ops"  onclick="showInput(this)" value ='/' >/</button>
+        <button id = "divert" class = "ops"   value ='/' >/</button>
         </div>
     
     </div>
@@ -92,27 +92,101 @@
 
         document.getElementById('equal').addEventListener('click',calculate);
         let clearFlag = false;
+        let operation = '';
+        let expr = [];
+        const opsSigns = ['-','+','*','/'];
+        const nums = ['0','1','2','3','4','5','6','7','8','9'];
         /*calculate expression after user press on '='*/
+        const opsClass = document.getElementsByClassName("ops");
+        for(let  i = 0; i<opsClass.length ;i++){
+            opsClass[i].addEventListener('click',(element)=>{
+            operation = element.value;
+             showAndProccesInput(opsClass[i]);
+         })
+
+        }
+        
         function calculate(element){
-            let result =  eval(document.getElementById('screen').value);
+            let result = '';
+            for(let i = 0 ; i<expr.length -1 ; i= i+2){
+                let opr = expr[i+1];
+                num1 = result !=''? result :parseFloat(expr[i]);
+                num2 = parseFloat(expr[i+2]);
+                if(opr ==='+'){
+                    result = num1+num2
+                    
+                }
+                else if(opr ==='-')
+                {
+                    result = num1-num2
+                }
+                else if(opr ==='*'){
+                    result = num1*num2
+                }
+                else{
+                    result = num1/num2
+                }
+
+                }
+            
             document.getElementById('screen').value = result;
             clearFlag=true;
+            
         }
         /*called for every number or operation click event*/
-        function showInput(element){
+        function showAndProccesInput(element){
             displayElem = document.getElementById('screen'); 
             if(clearFlag){
                 displayElem.value = "";
-                clearFlag=false;
+                clearScreen();
+                
+            }
+            let newVal = element.value;
+            let lastValue = expr[expr.length-1];
+           if(checkInputValidity(newVal)){ 
+                if(opsSigns.indexOf(newVal) ==-1 && opsSigns.indexOf(lastValue)==-1
+                && expr.length>0){
+                    expr[expr[expr.length - 1]] += newVal;
+                }
+                else{
+                  expr.push(newVal);
+                }
+    
+                 document.getElementById('screen').value += newVal;
 
             }
-            document.getElementById('screen').value += element.value;
+        }
 
+
+        function checkInputValidity(newVal){
+            let lastChar = expr[expr.length - 1];
+            let isExprValid = true;
+            let isLastCharOps = opsSigns.indexOf(lastChar) !=-1;
+            let isNewValOps = opsSigns.indexOf(newVal) !=-1;
+            if(expr.length>0){
+                if(isLastCharOps && isNewValOps){
+                    isExprValid= false;
+             }
+             if(isLastCharOps){
+                    if(newVal =='.'){
+                      isExprValid= false;
+                 }
+              }
+                if(isNewValOps){
+                 if(lastChar=='.'){
+                    isExprValid =  false;
+                 }
+             }
+
+            }
+         return isExprValid;
         }
         
         function clearScreen(){
             document.getElementById("screen").value = '';
             clearFlag=false;
+            operation = '';
+            expr=[];
         }
     
     </script>
