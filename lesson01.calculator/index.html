@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Web Calculator</title>
     <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <style>
         body {
             background-color: #FFF;
@@ -28,7 +28,7 @@
             margin: 20px;
         }
 
-        .container{
+        .container {
             position: relative;
             top: 100px;
             text-align: center;
@@ -64,28 +64,10 @@
         #clear {
             width: 104px;
         }
-        
     </style>
 </head>
+
 <body>
-    <script type="text/javascript">
-        function putValue (value) {
-            document.getElementById('inputarea').value += value;
-        };
-
-        function calculate () {
-            const expression = document.getElementById('inputarea').value;
-            if(expression !== '') {
-                const result = eval(expression);
-	            document.getElementById('inputarea').value = result;
-            }
-        };
-
-        function clearInput () {
-            document.getElementById('inputarea').value = "";
-        };
-        
-    </script>
     <header>
         <h1>Web Calculator</h1>
     </header>
@@ -114,14 +96,115 @@
                 <div>
                     <input type="button" class="operand" id="zero" value="0" onclick="putValue(this.value)">
                     <input type="button" class="operand" id="decimal" value="." onclick="putValue(this.value)">
-                    <input type="button" id="equal" value="=" onclick="calculate()">
+                    <input type="button" id="equal" value="=" onclick="putValue(this.value)">
                     <input type="button" class="operator" id="divide" value="/" onclick="putValue(this.value)">
                 </div>
                 <div class="bottom">
                     <input type="button" id="clear" value="Clear" onclick="clearInput()">
                 </div>
-            </form>	
+            </form>
         </div>
     </main>
+    <script type="text/javascript">
+        'use strict'
+        const CalculatorState = function () {
+            this.clear = function () {
+                this.right_value = 0;
+                this.left_value = 0;
+                this.operator = '';
+                this.resetDecimal();
+            };
+            this.resetDecimal = function () {
+                this.decimal = false;
+                this.decimal_place = 10;
+            };
+            this.clear();
+        };
+
+        let calc_state = new CalculatorState();
+
+        function putValue(value) {
+            let side = (calc_state.operator === '') ? 'left_value' : 'right_value';
+
+            if (/\d/.test(value)) {
+                // handle operand
+                value = new Number(value);
+                if (calc_state.decimal === false) {
+                    calc_state[side] *= 10;
+                    calc_state[side] += value;
+                } else {
+                    value /= calc_state.decimal_place;
+                    calc_state.decimal_place *= 10;
+                    calc_state[side] += value;
+                }
+            } else if (value === '.') {
+                calc_state.decimal = true;
+            } else {
+                // handle operator, calculate previous
+                if (calc_state.operator !== '') {
+                    try {
+                        calculate();
+                        side = 'left_value';
+                        if (value !== '=') {
+                            calc_state.operator = value;
+                        }
+                    } catch (err) {
+                        alert(err.message);
+                        clearInput();
+                    }
+                } else if (value !== '=') {
+                    calc_state.operator = value;
+                    calc_state.resetDecimal();
+                }
+            }
+            calculator.inputarea.value = calc_state[side];
+        };
+
+        function calculate() {
+            let result = 0;
+            switch (calc_state.operator) {
+                case '+':
+                    result = add(calc_state.left_value, calc_state.right_value);
+                    break;
+                case '-':
+                    result = subtract(calc_state.left_value, calc_state.right_value);
+                    break;
+                case '*':
+                    result = multiply(calc_state.left_value, calc_state.right_value);
+                    break;
+                case '/':
+                    result = divide(calc_state.left_value, calc_state.right_value);
+                    break;
+            }
+            calc_state.clear();
+            calc_state.left_value = result;
+        }
+
+        function clearInput() {
+            calc_state.clear();
+            calculator.inputarea.value = "";
+        };
+
+        function add(a, b) {
+            return a + b;
+        }
+
+        function subtract(a, b) {
+            return a - b;
+        }
+
+        function divide(a, b) {
+            if (b === 0) {
+                throw new Error("Can't divide by 0!");
+            }
+            return a / b;
+        }
+
+        function multiply(a, b) {
+            return a * b;
+        }
+
+    </script>
 </body>
+
 </html>
