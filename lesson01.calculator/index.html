@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html>
 <head>
 	<title>calculator</title>
@@ -7,69 +6,100 @@
 </head>
 <body>
 	<p id="title">Calculator</p>
-	<div>
-	<article class="block" >
-		<form name="form">
-			 <input id="input" name="textvew" placeholder=" 0" >
-		    </form>
+	 <div>
+			<article class="block" >
+					<p id="message"></p>
+				<form name="form">
+					<input id="input" name="textvew" placeholder="0" >
+						</form>
 
-		<table>
-		  <tr>
-		    <th><button class="button" onclick="clean()">CE</button></th>	
-		    <th><button class="button" onclick="delLast()" > C </button></th>
-		    <th><button class="button" onclick="getNumbers('(')">(</button></th>
-		    <th><button class="button" onclick="getNumbers(')')">)</button></th>
-		    
-		  </tr>
-		  <tr>
-			<th><button class="button" onclick="getNumbers(7)">7</button></th>
-			<th><button class="button" onclick="getNumbers(8)">8</button></th>
-			<th><button class="button" onclick="getNumbers(9)">9</button></th>
-			<th><button class="button" onclick="getNumbers('/')" >÷</button></th>
-		  </tr>
-		  <tr>
-			<th><button class="button" onclick="getNumbers(4)">4</button></th>
-			<th><button class="button" onclick="getNumbers(5)">5</button></th>
-			<th><button class="button" onclick="getNumbers(6)">6</button></th>
-			<th><button class="button" onclick="getNumbers('*')" >×</button></th>
-		  </tr>
-		  	<th><button class="button" onclick="getNumbers(1)">1</button></th>
-			<th><button class="button" onclick="getNumbers(2)">2</button></th>
-			<th><button class="button" onclick="getNumbers(3)">3</button></th>		
-			
-			<th><button class="button" onclick="getNumbers('-')" >-</button></th>
-		  <tr>
-			<th><button class="button" onclick="getNumbers('.')">.</button></th>
-			<th><button class="button" onclick="getNumbers(0)">0</button></th>
-			<th><button class="button" onclick="getNumbers('+')" >+</button></th>
-			<th><button class="button" onclick="result()" > = </button></th>
-		  </tr>
-		</table>
-	</article>
-	</div>
-<script type="text/javascript">
+				<table>
+					<tr>
+						<th><button class="button" onclick="clean()">CE</button></th>	
+						<th></th>
+						<th></th>
+						<th><button class="button" onclick="delLast()" > C </button></th>  
+					</tr>
+					<tr>
+						<th><button class="button" onclick="getNumbers(7)">7</button></th>
+						<th><button class="button" onclick="getNumbers(8)">8</button></th>
+						<th><button class="button" onclick="getNumbers(9)">9</button></th>
+						<th><button class="button" onclick="getSymbol('/')" >÷</button></th>
+					</tr>
+					<tr>
+						<th><button class="button" onclick="getNumbers(4)">4</button></th>
+						<th><button class="button" onclick="getNumbers(5)">5</button></th>
+						<th><button class="button" onclick="getNumbers(6)">6</button></th>
+						<th><button class="button" onclick="getSymbol('*')" >×</button></th>
+					</tr>
+						<th><button class="button" onclick="getNumbers(1)">1</button></th>
+						<th><button class="button" onclick="getNumbers(2)">2</button></th>
+						<th><button class="button" onclick="getNumbers(3)">3</button></th>	
+						<th><button class="button" onclick="getSymbol('-')" >-</button></th>
+					<tr>
+						<th><button class="button" onclick="getNumbers('.')">.</button></th>
+						<th><button class="button" onclick="getNumbers(0)">0</button></th>
+						<th><button class="button" onclick="getSymbol('+')" >+</button></th>
+						<th><button class="button" onclick="result()" > = </button></th>
+					</tr>
+				</table>
+			</article>
+		</div>
 
+<script>
+  let temp1 =0, temp2, summ =0;
+  let flag = false;
+	let operator; 
 
 	function getNumbers(numbers){
-		 document.form.textvew.value=document.form.textvew.value+numbers;
+		document.getElementById("message").innerHTML = "";
+			if(flag === true){
+				temp = document.form.textvew.value=document.form.textvew.value+numbers; 
+				temp2 = document.form.textvew.value.substr(1 ,10000000000);
+			}else{
+				temp1 = document.form.textvew.value=document.form.textvew.value+numbers;
+			}
 	}
 
-    function result(){
-		var summ = document.form.textvew.value;
-		let total = eval(summ);
-		if(total === Infinity){document.form.textvew.value=""; alert("Canno't divide by zero");}
-		else if(total ===''){
-			alert("Please put some number");
-		}
-			else{document.form.textvew.value=total} 	
+	function getSymbol(symbol){
+			flag =true;  
+			if(summ === 0){
+				operator = document.form.textvew.value=document.form.textvew.value =symbol;
+			}else{ temp1 = summ;
+				operator = document.form.textvew.value=document.form.textvew.value =symbol;
+			}
 	}
+	 
+    function result(){
+				if(operator ==="+"){
+					summ = parseFloat(temp1) + parseFloat(temp2);
+				}
+				else if(operator === '-'){
+					summ = parseFloat(temp1) - parseFloat(temp2);
+				}
+				else if(operator === '*'){
+					summ = parseFloat(temp1) * parseFloat(temp2);
+				}
+				else if(operator === '/'){
+					if(parseFloat(temp2) === 0){
+					document.getElementById("message").innerHTML = "cannot divide by zero";
+					}else{
+					summ = parseFloat(temp1) / parseFloat(temp2);
+					}
+				}
+					document.form.textvew.value=summ;
+					flag = false;
+		}
 
 	function clean(){
- 		 document.form.textvew.value="";
+			document.form.textvew.value="";
+		 summ = 0, temp1 =0, temp2 =0;
+		 document.getElementById("message").innerHTML = "";
  	}
+
  	function delLast(){
- 		var i =[document.form.textvew.value.length];
- 		document.form.textvew.value = document.form.textvew.value.substr(0 ,i-1);
+		var i =[document.form.textvew.value.length];
+		 document.form.textvew.value = document.form.textvew.value.substr(0 ,i-1);
  	}
  	
  	</script>
