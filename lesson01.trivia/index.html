@@ -10,36 +10,34 @@
 </head>
 <body>
  
-     <article class="firstBlock" align="center" >
+     <div class="firstBlock" align="center" >
                <h1 id="title">TRIVIA</h1>  
-     </article>   
-     <article class="block" align="center" >
-        <div>
-            <p id="question">What is the color of panda? </p>
+     </div>   
+     <div class="block" align="center">
+       <!-- <div align="center"> -->
+            <p id="question" align="center" >What is the color of panda? </p>
             <button class="button" onclick="checkAnswer(true)">Red</button><br>
             <button class="button" onclick="checkAnswer(false)">Black</button><br>
             <button class="button" onclick="checkAnswer(false)">Brown</button><br>
             <button class="button" onclick="checkAnswer(true)">Black and white</button><br>
             <button class="button" onclick="checkAnswer(false)">White</button><br>
-        </div>
+      <!--  </div> -->
 
         <script type="text/javascript">
       
            function checkAnswer(trueOrFalse){
             if(trueOrFalse === true){
-                //alert("you're right");
                document.getElementById("rightAanswer").innerHTML = "The answer is correct!";
                 document.getElementById("worngAnswer").innerHTML = "";
             }else{
-               //alert("you're wrong");
                document.getElementById("worngAnswer").innerHTML =  "The answer is incorrect!";
                 document.getElementById("rightAanswer").innerHTML ="";
             }
            }
          
         </script>
-<p id="rightAanswer" ></p>
-<p id="worngAnswer" ></p>
- </article>
+          <p id="rightAanswer" align="center"  ></p>
+          <p id="worngAnswer" align="center"></p>
+      </div>
 </body>
 </html>
