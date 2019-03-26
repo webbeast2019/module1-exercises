@@ -1,25 +1,62 @@
-var tds = document.getElementsByTagName('td');
-var result = document.querySelector('.result');
+const tds = document.getElementsByTagName('td');
+let result = document.querySelector('.result');
+let action = null;
+let Num1 = '0';
+let Num2 = '';
 
 for (var i = 1; i < tds.length; i++) {
     tds[i].addEventListener('click', function() {
-        if (this.textContent === '=') {
-            try {
-                result.textContent = eval(result.textContent);
-            } catch (e) {
-                if (e instanceof SyntaxError) {
-                    result.textContent = 'NaN';
-                }
+        let content = this.textContent;
+        if (content === '=') {
+            result.textContent = calculateResult();
+            Num1 = result.textContent;
+            Num2 = '';
+            action = null;
+        } else if (content === 'CE'){
+            result.textContent = '0';  
+            Num1 = '0';
+            Num2 = '';
+            action = null;
+        } else if ((content === '+') || (content === '*') || (content === '/') || (content === '-')) {
+            if (action) {
+                result.textContent = calculateResult();
+                Num1 = result.textContent;
+                Num2 = ''; 
+            } else if ((result.textContent === 'Infinity') || (result.textContent === 'NaN') || (result.textContent === '.')) {
+                result.textContent = '0'
+                Num1 = '0';
             }
-        } else if (this.textContent === 'CE'){
-            result.textContent = null;    
+            action = content;
+            result.textContent += content;
         } else {
             if ((result.textContent === 'Infinity') || (result.textContent === 'NaN') || (result.textContent === '0')) {
-                result.textContent = this.textContent;
+                result.textContent = content;
+                Num1 = content;
             } else {
-                result.textContent += this.textContent;
+                result.textContent += content;
+                if (action) {
+                    Num2 += content;
+                } else {
+                    Num1 += content;
+                }
             }
         }
     });
 }
 
+
+function calculateResult() {
+    if (Num2 === '') {return 'NaN';}
+    n1 = Number(Num1);
+    n2 = Number(Num2);
+    switch(action) {
+        case '+':
+            return n1 + n2;
+        case '-':
+            return n1 - n2;
+        case '*':
+            return n1 * n2;
+        case '/':
+            return n1 / n2;
+    }
+}
