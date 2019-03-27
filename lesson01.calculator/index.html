@@ -1,22 +1,318 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Web Calculator</title>
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <style>
-        body {
 
-        }
-    </style>
+<head>
+  <title>Web Calculator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <style>
+    body {
+      font-family: arial, sans-serif;
+    }
+
+    .calc {
+      display: grid;
+      grid: repeat(6, 1fr) / repeat(4, 1fr);
+      grid-gap: 5px;
+      box-sizing: border-box;
+      padding: 5px;
+      height: 95vh;
+      grid-template-areas:
+        "display display display display"
+        "clear   clear   del     divide"
+        "seven   eight   nine    multiply"
+        "four    five    six     minus"
+        "one     two     three   plus"
+        "sign    zero    point   result";
+      border: 1px solid black;
+      background-color: lightyellow;
+    }
+
+    button {
+      background-color: lightblue;
+      font-size: 9vmin;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: lightcyan;
+    }
+
+    button.one {
+      grid-area: one;
+    }
+
+    button.two {
+      grid-area: two;
+    }
+
+    button.three {
+      grid-area: three;
+    }
+
+    button.four {
+      grid-area: four;
+    }
+
+    button.five {
+      grid-area: five;
+    }
+
+    button.six {
+      grid-area: six;
+    }
+
+    button.seven {
+      grid-area: seven;
+    }
+
+    button.eight {
+      grid-area: eight;
+    }
+
+    button.nine {
+      grid-area: nine;
+    }
+
+    button.zero {
+      grid-area: zero;
+    }
+
+    button.point {
+      grid-area: point;
+    }
+
+    button.sign {
+      grid-area: sign;
+    }
+
+    button.divide {
+      grid-area: divide;
+    }
+
+    button.multiply {
+      grid-area: multiply;
+    }
+
+    button.minus {
+      grid-area: minus;
+    }
+
+    button.plus {
+      grid-area: plus;
+    }
+
+    button.result {
+      grid-area: result;
+    }
+
+    button.clear {
+      grid-area: clear;
+    }
+
+    button.del {
+      grid-area: del;
+    }
+
+    #display {
+      grid-area: display;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      font-size: 10vmin;
+      font-weight: bold;
+      border: 1px solid black;
+      background-color: lightcyan;
+      padding-right: 2px;
+    }
+
+  </style>
 </head>
+
 <body>
-    <header>
-        <h1>Web Calculator</h1>
-    </header>
-    <main>
-        Content Here
-    </main>
+  <main>
+    <div class="calc">
+      <div id="display">0</div>
+      <button type="button" class="one">1</button>
+      <button type="button" class="two">2</button>
+      <button type="button" class="three">3</button>
+      <button type="button" class="four">4</button>
+      <button type="button" class="five">5</button>
+      <button type="button" class="six">6</button>
+      <button type="button" class="seven">7</button>
+      <button type="button" class="eight">8</button>
+      <button type="button" class="nine">9</button>
+      <button type="button" class="zero">0</button>
+      <button type="button" class="point">.</button>
+      <button type="button" class="sign">+/-</button>
+      <button type="button" class="clear">C</button>
+      <button type="button" class="del">DEL</button>
+      <button type="button" class="divide">/</button>
+      <button type="button" class="multiply">x</button>
+      <button type="button" class="minus">-</button>
+      <button type="button" class="plus">+</button>
+      <button type="button" class="result">=</button>
+    </div>
+  </main>
+  <script>
+    'use strict';
+
+    const calc = (function() {
+
+      let Operator = {
+        add: 1,
+        subtract: 2,
+        multiply: 3,
+        divide: 4,
+      };
+
+      let _accumulator = 0;
+      let _operator;
+
+      //#region Public API Implementation
+      function doCalc(operand, operator) {
+        switch (_operator) {
+          case Operator.add:
+            _accumulator = _accumulator + Number(operand);
+            break;
+          case Operator.subtract:
+            _accumulator = _accumulator - Number(operand);
+            break;
+          case Operator.multiply:
+            _accumulator = _accumulator * Number(operand);
+            break;
+          case Operator.divide:
+            _accumulator = _accumulator / Number(operand);
+            break;
+          default:
+            _accumulator = Number(operand);
+            break;
+        }
+
+        setOperator(operator);
+
+        return _accumulator;
+      }
+
+      function clear() {
+        _accumulator = 0;
+        _operator = undefined;
+      }
+      //#endregion Public API Implementation
+
+      //#region Helper Functions
+      function setOperator(operator) {
+        switch (operator) {
+          case '+':
+            _operator = Operator.add;
+            break;
+          case '-':
+            _operator = Operator.subtract;
+            break;
+          case 'x':
+            _operator = Operator.multiply;
+            break;
+          case '/':
+            _operator = Operator.divide;
+            break;
+          case '=':
+            _operator = undefined;
+            break;
+          default:
+            break;
+        }
+      }
+      //#endregion Helper Functions
+
+      //#region Public API Declaration
+      let publicAPI = {
+        doCalc: doCalc,
+        clear: clear,
+      };
+      //#endregion Public API Declaration
+
+      return publicAPI;
+
+    })();
+
+    const MAX_NUMBER_LENGTH = 15;
+    const DEFAULT_DISPLAY_FONT_SIZE = '10'; // 10vmin
+
+    let displayElement;
+    let isCalcDone = false;
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+      displayElement = document.querySelector("#display");
+      document.querySelectorAll('button').forEach(btn => {
+        btn.onclick = button_click;
+      });
+    });
+
+    function button_click(e) {
+      if (!isNaN(e.target.innerHTML)) {
+        if (isCalcDone || displayElement.innerHTML === '0') {
+          displayElement.innerHTML = e.target.innerHTML;
+        } else if (displayElement.innerHTML.length < MAX_NUMBER_LENGTH) {
+          displayElement.innerHTML += e.target.innerHTML;
+        }
+        isCalcDone = false;
+      } else {
+        isCalcDone = false;
+        switch (e.target.innerHTML.toLowerCase()) {
+          case '+':
+          case '-':
+          case 'x':
+          case '/':
+          case '=':
+            let result = calc.doCalc(displayElement.innerHTML, e.target.innerHTML);
+            displayElement.innerHTML = formatNumber(result);
+            adjustFontSize(displayElement.innerHTML);
+            isCalcDone = true;
+            break;
+          case '+/-':
+            if (!isNaN(displayElement.innerHTML) && displayElement.innerHTML !== '0')
+              displayElement.innerHTML = parseFloat(displayElement.innerHTML) * -1;
+            break;
+          case '.':
+            if (!isNaN(displayElement.innerHTML) &&
+              displayElement.innerHTML.indexOf('.') === -1)
+              displayElement.innerHTML += '.';
+            break;
+          case 'c':
+            calc.clear();
+            displayElement.innerHTML = '0';
+            break;
+          case 'del':
+            if (!isNaN(displayElement.innerHTML) && Number(displayElement.innerHTML) !== Infinity)
+              displayElement.innerHTML = Number(displayElement.innerHTML.slice(0, -1));
+            break;
+        }
+      }
+    }
+
+    function formatNumber(number) {
+      if (Number.isInteger(number) || isNaN(number))
+        return number;
+      else
+        return Number(number.toFixed(MAX_NUMBER_LENGTH - countNotDecimal(number)));
+    }
+
+    function countNotDecimal(number) {
+      if ((number % 1) != 0)
+        return number.toString().split(".")[0].length;
+      return 0;
+    };
+
+    function adjustFontSize(number) {
+      if (displayElement.innerHTML.length > MAX_NUMBER_LENGTH) {
+        let deltaLen = displayElement.innerHTML.length - MAX_NUMBER_LENGTH;
+        displayElement.style.fontSize = `${DEFAULT_DISPLAY_FONT_SIZE - Math.ceil(deltaLen / 3)}vmin`;
+      } else {
+        displayElement.style.fontSize = `${DEFAULT_DISPLAY_FONT_SIZE}vmin`;
+      }
+    }
+
+  </script>
 </body>
+
 </html>
