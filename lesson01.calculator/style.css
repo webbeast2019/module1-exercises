@@ -48,6 +48,10 @@ button.delete:hover {
     left: 20px;
     background-color: coral;
 }
+.history{
+    top: 158px;
+    left: 120px;
+}
 .delete{
     top: 158px;
     left: 320px;
