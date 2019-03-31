@@ -1,22 +1,358 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Find A Pair</title>
+    <title>Memory Cards Game</title>
     <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <style>
         body {
+            background-color: #FFF;
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0 auto;
+        }
 
+        header {
+            background-color: #469095;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+        }
+
+        h1 {
+            color: #FFF;
+            font-size: 30px;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            margin: 20px;
+        }
+
+        .btn {
+            font-size: 18px;
+            position: absolute;
+        }
+
+        .container {
+            position: relative;
+            top: 100px;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            border: 3px solid #469095;
+            border-radius: 15px;
+        }
+
+        .unmatched {
+            background-image: none;
+            background-color: #f5faec;
+        }
+
+        .matched {
+            background-image: none;
+            background-color: #FFF;
+            border-color: #FFF;
+        }
+
+        .dog {
+            background: url('dog.jpg') no-repeat center;
+        }
+
+        .cat {
+            background: url('cat.jpg') no-repeat center;
+        }
+
+        .mouse {
+            background: url('mouse.jpg') no-repeat center;
+        }
+
+        .rabbit {
+            background: url('rabbit.jpg') no-repeat center;
+        }
+
+        .lion {
+            background: url('lion.jpg') no-repeat center;
+        }
+
+        .spider {
+            background: url('spider.jpg') no-repeat center;
+        }
+
+        .buffalo {
+            background: url('buffalo.jpg') no-repeat center;
+        }
+
+        .shark {
+            background: url('shark.jpg') no-repeat center;
         }
     </style>
 </head>
+
 <body>
     <header>
-        <h1>>Find A Pair</h1>
+        <h1>Memory Cards Game</h1>
     </header>
     <main>
-        Content Here
+        <div class="container">
+            <button class="btn" onclick="game.start();">Start</button>
+            <div class="row">
+                <div class="cell unmatched" index="0"></div>
+                <div class="cell unmatched" index="1"></div>
+                <div class="cell unmatched" index="2"></div>
+                <div class="cell unmatched" index="3"></div>
+            </div>
+            <div class="row">
+                <div class="cell unmatched" index="4"></div>
+                <div class="cell unmatched" index="5"></div>
+                <div class="cell unmatched" index="6"></div>
+                <div class="cell unmatched" index="7"></div>
+            </div>
+            <div class="row">
+                <div class="cell unmatched" index="8"></div>
+                <div class="cell unmatched" index="9"></div>
+                <div class="cell unmatched" index="10"></div>
+                <div class="cell unmatched" index="11"></div>
+            </div>
+            <div class="row">
+                <div class="cell unmatched" index="12"></div>
+                <div class="cell unmatched" index="13"></div>
+                <div class="cell unmatched" index="14"></div>
+                <div class="cell unmatched" index="15"></div>
+            </div>
+
+        </div>
     </main>
+    <script type="text/javascript">
+        'use strict'
+        // Main game controller
+        class Game {
+            constructor(numCards) {
+                // number of cards to create (not implemented in UI)
+                this.numCards = numCards;
+
+                // cards array
+                this.cards = this.fillCards();
+
+                // index of "open" card that is waiting for match. -1 means none.
+                this.openedCardIndex = -1;
+            }
+
+            fillCards() {
+                let cards = [];
+                for (let i = 1; i <= this.numCards / 2; i++) {
+                    this.fillPair(i, cards);
+                }
+                return cards;
+            }
+
+            fillPair(i, cards) {
+                // there is 8 card types (classes) defined
+                switch (i % 8) {
+                    case 0:
+                        cards.push(new Dog());
+                        cards.push(new Dog());
+                        break;
+
+                    case 1:
+                        cards.push(new Cat());
+                        cards.push(new Cat());
+                        break;
+
+                    case 2:
+                        cards.push(new Mouse());
+                        cards.push(new Mouse());
+                        break;
+
+                    case 3:
+                        cards.push(new Rabbit());
+                        cards.push(new Rabbit());
+                        break;
+
+                    case 4:
+                        cards.push(new Spider());
+                        cards.push(new Spider());
+                        break;
+
+                    case 5:
+                        cards.push(new Lion());
+                        cards.push(new Lion());
+                        break;
+
+                    case 6:
+                        cards.push(new Buffalo());
+                        cards.push(new Buffalo());
+                        break;
+
+                    case 7:
+                        cards.push(new Shark());
+                        cards.push(new Shark());
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            start() {
+                this.openedCardIndex = -1;
+                shuffle(this.cards);
+
+                // assign cards to html
+                this.cells = [...document.querySelectorAll('.cell')];
+                for (let i = 0; i < this.numCards; i++) {
+                    this.cells[i].classList.add(this.cards[i].type);
+                }
+
+                // add click event listener
+                this.cells.forEach(cell => {
+                    cell.onclick = () => game.openCard(cell);
+                });
+
+
+                // show image for 4 seconds to remember
+                window.setTimeout(function () {
+                    game.cells.forEach(cell => {
+                        cell.className = 'cell unmatched';
+                    });
+                }, 4000);
+            }
+
+            openCard(selectedCell) {
+                // show image
+                const index = parseInt(selectedCell.getAttribute('index'));
+                const selectedCard = this.cards[index]
+                selectedCell.classList.add(selectedCard.type);
+
+                if (this.openedCardIndex < 0) {
+                    // first card to open, keep showing the image
+                    this.openedCardIndex = index;
+                }
+                else {
+                    const openedCell = this.cells[this.openedCardIndex];
+
+                    // try to match
+                    const openedCard = this.cards[this.openedCardIndex];
+                    const isMatched = openedCard.isMatch(selectedCard);
+                    if (!isMatched) {
+                        // close cards
+                        window.setTimeout(function () {
+                            game.closeUnmatched(openedCell, selectedCell);
+                        }, 1000);
+                    }
+                    else {
+                        // remove from board
+                        window.setTimeout(function () {
+                            game.removeMatched(openedCell, selectedCell);
+                        }, 1000);
+                    }
+                    this.openedCardIndex = -1;
+                }
+            }
+
+            closeUnmatched(cell1, cell2) {
+                cell1.className = 'cell unmatched';
+                cell2.className = 'cell unmatched';
+            }
+
+            removeMatched(cell1, cell2) {
+                cell1.className = 'cell matched';
+                cell2.className = 'cell matched';
+                cell1.onclick = null;
+                cell2.onclick = null;
+            }
+        }
+
+        // Base card
+        class Card {
+            constructor(type) {
+                this.type = type;
+            }
+
+            isMatch(card) {
+                return this.type === card.type;
+            }
+        }
+
+        class Dog extends Card {
+            constructor() {
+                super("dog");
+            }
+        }
+
+        class Cat extends Card {
+            constructor() {
+                super("cat");
+            }
+        }
+
+        class Mouse extends Card {
+            constructor() {
+                super("mouse");
+            }
+        }
+
+        class Rabbit extends Card {
+            constructor() {
+                super("rabbit");
+            }
+        }
+
+        class Lion extends Card {
+            constructor() {
+                super("lion");
+            }
+        }
+
+        class Spider extends Card {
+            constructor() {
+                super("spider");
+            }
+        }
+
+        class Buffalo extends Card {
+            constructor() {
+                super("buffalo");
+            }
+        }
+
+        class Shark extends Card {
+            constructor() {
+                super("shark");
+            }
+        }
+
+        function shuffle(array) {
+            let currentIndex = array.length;
+            let tempValue;
+            let randomIndex;
+
+            // while there remain elements to shuffle
+            while (currentIndex !== 0) {
+                // pick a remaining element
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+
+                // swap it with the current element
+                tempValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = tempValue;
+            }
+        }
+
+        const game = new Game(16);
+    </script>
 </body>
+
 </html>
