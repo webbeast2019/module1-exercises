@@ -3,20 +3,36 @@
 <head>
     <title>Github Users</title>
     <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <style>
-        body {
-
+        main>img {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 50px;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>>Find A Pair</h1>
+        <h1>Find A Pair</h1>
     </header>
-    <main>
-        Content Here
-    </main>
+    <main></main>
+    <script>
+        fetch('https://api.github.com/users')
+            .then(response => { return (response.json()); })
+            .then(myJson => { return (myJson); })
+            .then(function (users) {
+                for (user in users) {
+                    let node = document.createElement("h1");
+                    node.innerHTML = users[user].login;
+                    document.querySelector('main').appendChild(node);
+                    node = document.createElement("img");
+                    node.src = users[user].avatar_url;
+                    document.querySelector('main').appendChild(node);
+                }
+
+            });
+
+    </script>
 </body>
 </html>
