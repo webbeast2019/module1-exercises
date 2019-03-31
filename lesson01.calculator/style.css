@@ -1,0 +1,26 @@
+.bold {
+    font-weight: 700;
+}
+
+td:hover:not(.result) {
+    background-color: #708090;
+}
+
+.table {
+    width: 40%;
+    min-width: 300px;
+}
+
+.result {
+    height: 70px;
+    letter-spacing: 1.5px;
+    font-size: 17px;
+}
+
+span {
+    display: none;
+}
+
+td:not(.result) {
+    width: 24%;
+}
