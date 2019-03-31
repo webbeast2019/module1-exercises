@@ -23,10 +23,6 @@
             width: 19vw;
         }
 
-        .card label {
-            font-weight: bold;
-        }
-
         .card:hover {
             background-color: yellow;
         }
@@ -37,7 +33,7 @@
     <template id="user-card">
         <section class="card">
             <img>
-            <label></label>
+            <a></a>
         </section>
     </template>
     <main>
@@ -54,7 +50,10 @@
                 users.forEach(user => {
                     const newUser = template.content.cloneNode(true);
                     newUser.querySelector('img').src = user.avatar_url;
-                    newUser.querySelector('label').textContent = user.login;
+                    let userLink = newUser.querySelector('a');
+                    userLink.innerHTML = user.login;
+                    userLink.href = user.html_url;
+                    userLink.target = '_blank';
                     main.appendChild(newUser);
                 });
             });
