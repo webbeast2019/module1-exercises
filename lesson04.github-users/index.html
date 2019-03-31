@@ -1,22 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Github Users</title>
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <style>
-        body {
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        main {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1vw;
+        }
+
+        .card img {
+            width: 19vw;
+        }
+
+        .card label {
+            font-weight: bold;
+        }
+
+        .card:hover {
+            background-color: yellow;
         }
     </style>
 </head>
+
 <body>
-    <header>
-        <h1>>Find A Pair</h1>
-    </header>
+    <template id="user-card">
+        <section class="card">
+            <img>
+            <label></label>
+        </section>
+    </template>
     <main>
-        Content Here
+
     </main>
+    <script>
+        fetch('https://api.github.com/users')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (users) {
+                const main = document.querySelector('main');
+                const template = document.getElementById('user-card');
+                users.forEach(user => {
+                    const newUser = template.content.cloneNode(true);
+                    newUser.querySelector('img').src = user.avatar_url;
+                    newUser.querySelector('label').textContent = user.login;
+                    main.appendChild(newUser);
+                });
+            });
+    </script>
 </body>
+
 </html>
