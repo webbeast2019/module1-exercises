@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #board {
+            display: flex;
+            margin:auto;
+            margin-top:50px;
+            width:750px;
+            height: 615px;
+            flex-wrap: wrap;
+            border:1px solid red;
+            
+        }
+        .hidden {
+            display: none;
+        }
+        
+        .card {
+            width: 150px;  
+            height: 150px; 
+            margin: auto;
+            border :1px solid black;
+            border-radius:20px; 
+            flex-grow: 1;
+            
+        }
+        img{
+            height: 100%;
+            width: 100%;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id ='board' >
+    </div>
+    
+    <script>
+        'use strict'
+        class Card{
+            constructor(id,matchId,imgURL,isBack,isHidden ){
+                this._id = id;
+                this._matchId = matchId;
+                this._imgURL = imgURL;
+                this._isBack - isBack;
+                this._isHidden = isHidden;
+            }
+                set id(id) {this._id=id;}
+                set matchId(matchId){this._matchId=matchId;}  
+                set imgURL(imgURL){this._imgURL = imgURL }
+                set isBack(isBack){this._isBack = isBack;}
+                set isHidden(isHidden){  this._isHidden = isHidden;}
+                get id(){return this._id; }
+                get matchId(){return this._matchId; }
+                get imgURL(){return this._imgURL;}
+                get isBack(){return this._isBack; }
+                get isHidden(){return this._isHidden;}
+        }
+        const baseImgURL = 'assets/images/dog';
+        const imgPostfix = '.jpeg'; 
+        const cardBackURL = 'assets/images/cardBack.jpg';
+        const cardsNum = 16;
+        let cardObjects = []; 
+        function initBoard(){
+            cardObjects =[]; 
+            let pairs = generatePairs();
+            for(let i = 0; i<cardsNum/2;i++){
+                cardObjects.push(new Card(pairs[i][0],pairs[i][1],`${baseImgURL}${i+1}${imgPostfix}`,false,false));
+                cardObjects.push(new Card(pairs[i][1],pairs[i][0],`${baseImgURL}${i+1}${imgPostfix}`,false,
+                false));
+            }
+            presentBoard(cardObjects);
+        }
+
+        function presentBoard(cardObjects){
+               let board =  document.getElementById('board');
+            for(let i = 0; i<cardsNum;i++){
+                let card = document.createElement('div');
+                card.setAttribute('class','card');
+                card.setAttribute('id',`card${i+1}`); 
+                board.appendChild(card);
+            }
+
+            cardObjects.forEach(element => {
+                showCards(element);
+                document.getElementById(`card${element.id}`).addEventListener("click",function(){
+                 element.isBack=false;   
+                let imgDiv = document.getElementById(`card${element.id}`).children[0];
+                imgDiv.src = element.imgURL;
+                let matchElem = cardObjects.find(e=>element.matchId == e.id);
+                let matchImgDiv = document.getElementById(`card${matchElem.id}`).children[0];
+
+                if(!matchElem.isBack){
+                    imgDiv.classList.add('hidden')
+                    matchImgDiv.classList.add('hidden')
+
+                }
+                });
+            });
+        }
+
+
+        function showCards(card){
+            let cardElem = document.getElementById(`card${card.id}`);
+            let cardImg = document.createElement('img');
+            cardElem.appendChild(cardImg);
+            document.getElementById(`card${card.id}`).children[0].src = card.imgURL
+        }
+
+        function generatePairs(){
+            let isUnique = false;
+            let pairs =[];
+            for (let i = 0; i < cardsNum/2; i++) {
+                isUnique = false;
+                let pair = null;
+                
+                while(!isUnique){
+                    pair=[Math.floor(Math.random() * (cardsNum) + 1),Math.floor(Math.random() * (cardsNum) + 1)];
+                    if(pair[0]!=pair[1] &&  isPairUnique(pair,pairs)){
+                        pairs.push(pair);
+                        isUnique=true;
+                    }    
+                }
+            }
+            return pairs;
+        }
+
+        function isPairUnique(pair,pairs){
+            return pairs.findIndex(p=>p[0] == pair[0] || p[0] == pair[1]|| p[1] ==pair[0]
+             || p[1] == pair[1]) ==-1;
+
+        }
+           
+    initBoard();
+     window.setTimeout(function flipCards(){
+        for (let i = 0; i < cardObjects.length; i++) {
+            const card = cardObjects[i];
+            document.getElementById(`card${card.id}`).children[0].src = cardBackURL;
+            card.isBack=true;
+
+        }        
+    },3000);
+    </script>
+
+    
+    
+    
+</body>
+
+
+</html>
