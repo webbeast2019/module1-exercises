@@ -45,21 +45,21 @@ const checkIfNumTaken = (numsArray, num) => {
     return false;
 };
 
-const initCards = () => {//function that init all card's objects
-    let cardsNumnersTacken = [];
+const initCards = () => {//function that initialize all card's objects
+    let cardsNumbnersTacken = [];
     let imagesTacken = [];
 
     for (let i = 0; i <= (numOfCards / 2) - 1; i++) {
         let cardNum1 = Math.floor((Math.random() * numOfCards) + 1);
-        while (checkIfNumTaken(cardsNumnersTacken, cardNum1)) {
+        while (checkIfNumTaken(cardsNumbnersTacken, cardNum1)) {
             cardNum1 = Math.floor((Math.random() * numOfCards) + 1);
         }
-        cardsNumnersTacken.push(cardNum1);
+        cardsNumbnersTacken.push(cardNum1);
         let cardNum2 = Math.floor((Math.random() * numOfCards) + 1);
-        while (checkIfNumTaken(cardsNumnersTacken, cardNum2)) {
+        while (checkIfNumTaken(cardsNumbnersTacken, cardNum2)) {
             cardNum2 = Math.floor((Math.random() * numOfCards) + 1);
         }
-        cardsNumnersTacken.push(cardNum2);
+        cardsNumbnersTacken.push(cardNum2);
 
         let image = Math.floor((Math.random() * IMAGES.length));
         while (checkIfNumTaken(imagesTacken, image)) {
@@ -73,19 +73,19 @@ const initCards = () => {//function that init all card's objects
 };
 
 const initDisplay = () => {//function that crate all card's divs and render them to the DOM
-    let boradDisplay = ``;
-    let boradSize = document.querySelector('main').offsetHeight;
-    let cardSize = boradSize / Math.sqrt(numOfCards) - 10;
+    let boardDisplay = ``;
+    let boardSize = document.querySelector('main').offsetHeight;
+    let cardSize = boardSize / Math.sqrt(numOfCards) - 10;
     cardSize += 'px';
     for (let i = 0; i <= CARDS.length - 1; i++) {
-        boradDisplay += `<div class="card" id=${CARDS[i].num} style=" width: ${cardSize}; height: ${cardSize};" onClick="cardClick(this)">
+        boardDisplay += `<div class="card" id=${CARDS[i].num} style=" width: ${cardSize}; height: ${cardSize};" onClick="cardClick(this)">
                             <img src=${CARDS[i].image}>
                         </div>`;
     }
-    document.querySelector('.board').innerHTML = boradDisplay;
+    document.querySelector('.board').innerHTML = boardDisplay;
 };
 
-const reversedAllCard = () => {
+const reversedAllCards = () => {
     for (let i = 0; i <= CARDS.length - 1; i++) {
         if (CARDS[i].show) {
             document.getElementById(CARDS[i].num).style.backgroundColor = 'Khaki';
@@ -101,20 +101,20 @@ const showCard = (cardNum) => {
     document.getElementById(cardNum).style.backgroundColor = 'white';
 };
 
-const cardsMatch = (card1, card2) => {
-    document.getElementById(card1).style.visibility = 'hidden';
-    document.getElementById(card2).style.visibility = 'hidden';
-    CARDS[card1 - 1].visible = false;
-    CARDS[card2 - 1].visible = false;
-    checkIfGameEnd();
-};
-
 const checkIfGameEnd = () => {
     for (let i = 0; i <= CARDS.length - 1; i++) {
         if (CARDS[i].visible)
             return;
     }
     alert('Congratulations, you found them all!');
+};
+
+const cardsMatch = (card1, card2) => {
+    document.getElementById(card1).style.visibility = 'hidden';
+    document.getElementById(card2).style.visibility = 'hidden';
+    CARDS[card1 - 1].visible = false;
+    CARDS[card2 - 1].visible = false;
+    checkIfGameEnd();
 };
 
 const updateGameState = () => {
@@ -138,7 +138,7 @@ const startNewGame = () => {
     updateGameState();
 
     CARDS.forEach(card => showCard(card.num));
-    setTimeout(reversedAllCard, 1000);
+    setTimeout(reversedAllCards, 1000);
 };
 
 function cardClick(element) {
@@ -149,7 +149,7 @@ function cardClick(element) {
 
     if (cardsClicked === 3) {
         clearTimeout(timeoutID);
-        reversedAllCard();
+        reversedAllCards();
         cardsClicked = 1;
     }
     if (cardsClicked === 2) {
@@ -159,7 +159,7 @@ function cardClick(element) {
             setTimeout(cardsMatch, 500, cardNum, prevCardNum);
         }
         else
-            timeoutID = setTimeout(reversedAllCard, 1000);
+            timeoutID = setTimeout(reversedAllCards, 1000);
         cardsClicked++;
         GAME_STATE.tries++;
         updateGameState();
