@@ -1,0 +1,80 @@
+body {
+    background: rgb(2, 0, 36);
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 80px;
+    perspective: 1000px;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+    color: white;
+}
+
+h2 {
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+    color: white;
+}
+
+.mem-card {
+    border: 1px solid rgb(89, 191, 232);
+    border-radius: 10px;
+    width: 100px;
+    height: 100px;
+    background-color: rgb(204, 245, 245);
+    /* box-shadow: 3px 5px 5px 0 rgba(0, 0, 0, 0.2); */
+    transform-style: preserve-3d;
+    transition: transform .6s;
+    position: relative;
+    z-index: 1;
+    margin: 5px;
+}
+
+.display {
+    display: block;
+}
+
+.front-card {
+    position: absolute;
+    background-color: rgb(204, 245, 245);
+    z-index: 1;
+    width: 90%;
+    height: 90%;
+    border-radius: 10px;
+    backface-visibility: hidden;
+}
+
+.back-card {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    padding: 10px;
+    border-radius: 10px;
+    transform: rotateY(180deg);
+}
+
+.flip {
+    transform: rotateY(180deg);
+}
+
+.visibility {
+    visibility: hidden;
+}
+
+h3 {
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+    color: white;
+}
+
