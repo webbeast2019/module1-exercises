@@ -101,8 +101,8 @@
                     if(!isFirstCard){
                         window.setTimeout(function(){
                             if(!matchElem.isBack){
-                                imgDiv.classList.add('hidden')
-                                matchImgDiv.classList.add('hidden')
+                                imgDiv.classList.add('hidden');
+                                matchImgDiv.classList.add('hidden');
                             }
                             else{
                                 cardObjects.forEach(function(elem){
@@ -119,9 +119,6 @@
                 });
             });
         }
-        
-        
-        
         
         function showCards(card){
             let cardElem = document.getElementById(`card${card.id}`);
