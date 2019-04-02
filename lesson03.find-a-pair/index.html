@@ -1,22 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Find A Pair</title>
     <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet">
     <style>
-        body {
+        * {
+            padding: 0;
+            margin: 0;
+        }
 
+        body {
+            background: gray;
+        }
+
+        header {
+            height: 65px;
+            background: #000;
+            margin-bottom: 0.9%;
+        }
+
+        h1 {
+            font-family: 'Courgette', cursive;
+            color: #fff;
+            font-weight: normal;
+            line-height: 65px;
+            margin-left: calc(50% - 90px);
+        }
+
+        main {
+            width: 640px;
+            height: 480px;
+            margin: auto;
+            background: rgba(15, 26, 27, 0);
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        section {
+            border: 1px solid;
+            box-sizing: border-box;
+            width: 20%;
+            height: 30%;
+            margin: 5px;
+            box-shadow: 1px 1px 1px;
+        }
+
+        section:active {
+            transition: transform .2s;
+            transform: rotateY(180deg);
+        }
+
+        .cards {
+            background-color: rgb(89, 109, 93);
         }
     </style>
 </head>
+
 <body>
     <header>
-        <h1>>Find A Pair</h1>
+        <h1>Find A Pair</h1>
     </header>
-    <main>
-        Content Here
-    </main>
+    <main class="memory-card"></main>
+    <script src="scripts.js"></script>
 </body>
+
 </html>
