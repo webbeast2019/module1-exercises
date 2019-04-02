@@ -1,22 +1,493 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Find A Pair</title>
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <style>
-        body {
 
+<head>
+    <title>Find a pair</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+        main {
+            height: 500px;
+            width: 700px;
+            border: 5px solid gray;
+            padding: 5px 0 10px 0;
+            display: flex;
+            flex-flow: row;
+            justify-content: space-evenly;
+        }
+
+        .cardContainerFor12 {
+            height: 375px;
+        }
+
+        .cardContainerFor16 {
+            height: 500px;
+        }
+
+        .cardContainerFor20 {
+            height: 400px;
+        }
+
+        .cardContainerFor24 {
+            height: 333px;
+        }
+
+        .cardContainer {
+            width: 500px;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-evenly;
+        }
+
+        .cardFor12,
+        .cardFor16 {
+            flex: 1 2 20%;
+        }
+
+        .cardFor20 {
+            flex: 1 2 19%;
+        }
+
+        .cardFor24 {
+            flex: 1 2 16%;
+        }
+
+        .card {
+            background-color: #fec;
+            border: 0.5px solid red;
+            border-radius: 15px;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 15px;
+        }
+
+        .flipCard {
+            visibility: hidden;
+        }
+
+        .foundCard {
+            opacity: 0.2;
+        }
+
+        .controlContainer {
+            display: flex;
+            flex-flow: column;
+            justify-content: space-between;
+        }
+
+        .userContainer {
+            width: 50px;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: space-between;
+        }
+
+        .turn {
+            background-color: cornflowerblue;
+        }
+
+
+        .hide {
+            display: none;
         }
     </style>
 </head>
+
 <body>
     <header>
-        <h1>>Find A Pair</h1>
+
     </header>
     <main>
-        Content Here
+        <div class="cardContainer cardContainerFor16">
+            <div id="div1" class="card cardFor16"></div>
+            <div id="div2" class="card cardFor16"></div>
+            <div id="div3" class="card cardFor16"></div>
+            <div id="div4" class="card cardFor16"></div>
+            <div id="div5" class="card cardFor16"></div>
+            <div id="div6" class="card cardFor16"></div>
+            <div id="div7" class="card cardFor16"></div>
+            <div id="div8" class="card cardFor16"></div>
+            <div id="div9" class="card cardFor16"></div>
+            <div id="div10" class="card cardFor16"></div>
+            <div id="div11" class="card cardFor16"></div>
+            <div id="div12" class="card cardFor16"></div>
+            <div id="div13" class="card cardFor16"></div>
+            <div id="div14" class="card cardFor16"></div>
+            <div id="div15" class="card cardFor16"></div>
+            <div id="div16" class="card cardFor16"></div>
+        </div>
+        <div class="controlContainer">
+            <div>
+                <input type="radio" name="user" value="1" checked>One Player
+                <input type="radio" name="user" value="2">Two Player
+            </div>
+            <div>
+                <label for="cardPairSelect">Size:</label>
+                <select id="cardPairSelect">
+                    <option value="cardContainerFor12">6 Paris</option>
+                    <option value="cardContainerFor16" selected>8 Paris</option>
+                    <option value="cardContainerFor20">10 Paris</option>
+                    <option value="cardContainerFor24">12 Paris</option>
+                </select>
+            </div>
+
+            <input type="button" id="btnStart" value="Start New Game">
+            <div class="userContainer">
+                <div id="user1" class="user1">
+                    <h3 id="player1Turn" class="turn">Player 1</h3>
+                    <label for="attempts">attempts:</label>
+                    <input type="text" id="attempts" value="0" readonly>
+                    <label for="found">found:</label>
+                    <input type="text" id="found" value="0" readonly>
+                </div>
+                <div id="user2" class="user2 hide">
+                    <h3 id="player2Turn">Player 2</h3>
+                    <label for="attempts">attempts:</label>
+                    <input type="text" id="attempts2" value="0" readonly>
+                    <label for="found">found:</label>
+                    <input type="text" id="found2" value="0" readonly>
+                </div>
+            </div>
+            <p id="scoreMessage">Find all the pairs!</p>
+        </div>
+
     </main>
+    <script>
+
+        'use strict'
+        let cards = [];
+        let pair = [];
+        let gameScore = null;
+        const gallery = [
+            "http://mypuzzle.org/app/find-the-pair//gallery/animals-bunny.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/animals-bunny-2.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/animals-cat.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/animals-cat-2.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/animals-dog.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/animals-dog-2.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/animals-horse-2.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/animals-horse.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/architecture-london-towerbridge.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/architecture-moscow-redsquare.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/architecture-nederlanden.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/architecture-newyork-publiclibrary.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/architecture-paris-eiffeltower.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/cities-tokyo-night.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/flowers-reddahlia.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/flowers-waterlillies.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/flowers-windclock.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/landscape-1.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/landscape-2.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/landscape-australia-outback.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/landscape-netherlands-deurningen.jpg",
+            "http://mypuzzle.org/app/find-the-pair//gallery/landscape-us-edgewood.jpg"
+        ];
+
+        let numberOfCards = 16;
+
+        const fragment = document.createDocumentFragment();
+
+        let cardPairSelect = document.getElementById('cardPairSelect');
+        cardPairSelect.addEventListener('click', viewFromUser.bind(this));
+        function viewFromUser() {
+            let selectedPair = cardPairSelect.options[cardPairSelect.selectedIndex].value;
+            numberOfCards = selectedPair.slice(selectedPair.length - 2);
+            let cardContainer = document.querySelector('.cardContainer');
+            if (cardContainer.classList.contains(selectedPair)) {
+                return;
+            } else {
+                updateView(selectedPair, cardContainer);
+                cardContainer.classList.replace(cardContainer.classList[1], selectedPair);
+                cardContainer.appendChild(fragment);
+            }
+            startGame();
+        }
+
+        function updateView(selectedPair, cardContainer) {
+            let cardList = document.querySelectorAll('.card');
+            switch (selectedPair) {
+                case ("cardContainerFor12"):
+                    viewToDefult(cardContainer, cardList, "cardFor12");
+                    if (cardList[12]) {
+                        cardList.forEach((item, index) => {
+                            if (index > 11) cardContainer.removeChild(item)
+                        })
+                    }
+                    break;
+                case ("cardContainerFor16"):
+                    viewToDefult(cardContainer, cardList, "cardFor16");
+                    break;
+                case ("cardContainerFor20"):
+                    viewToDefult(cardContainer, cardList, "cardFor20");
+                    for (let i = 0; i < 4; i++) {
+                        let div = document.createElement('div');
+                        div.id = `div${17 + i}`;
+                        div.className = "card cardFor20";
+                        fragment.appendChild(div);
+                    }
+                    break;
+                case ("cardContainerFor24"):
+                    viewToDefult(cardContainer, cardList, "cardFor24");
+                    for (let i = 0; i < 8; i++) {
+                        let div = document.createElement('div');
+                        div.id = `div${17 + i}`;
+                        div.className = "card cardFor24";
+                        fragment.appendChild(div);
+                    }
+                    break;
+            }
+        }
+
+        function viewToDefult(cardContainer, cardList, cardClassStr) {
+            let cardContainerNow = document.querySelector('.cardContainer');
+            if (!cardList[12]) {
+                for (let i = 0; i < 4; i++) {
+                    let div = document.createElement('div');
+                    div.id = `div${13 + i}`;
+                    div.className = "card cardFor16";
+                    fragment.appendChild(div);
+                }
+                cardContainer.appendChild(fragment);
+            }
+            if (cardList[16]) {
+                cardList.forEach((item, index) => {
+                    if (index > 15) cardContainerNow.removeChild(item)
+                })
+            }
+            cardList.forEach(item => {
+                if (!item.classList.contains(cardClassStr))
+                    item.classList.replace(item.classList[1], cardClassStr)
+            });
+        }
+
+        class Card {
+            constructor(divId, picSrc = null, pairId = null) {
+                this._divId = divId;
+                this._picSrc = picSrc;
+                this._pairId = pairId;
+            }
+            set picSrc(picSrc) { this._picSrc = picSrc }
+            set pairId(pairId) {
+                this._pairId = pairId;
+                this.addPic();
+            }
+            get cardDivId() { return this._divId }
+            get cardPairId() { return this._pairId }
+            get cardDiv() { return document.getElementById(`${this._divId}`) }
+            get cardImgSrc() { return this._picSrc }
+
+            addPic() {
+                this.cardDiv.innerHTML = `<img src=${this.cardImgSrc}>`;
+            }
+
+            showCard() {
+                this.cardDiv.childNodes[0].classList.toggle("flipCard");
+            }
+
+            foundCardPair() {
+                this.cardDiv.childNodes[0].classList.add("foundCard");
+            }
+        }
+
+        class GameScore {
+            constructor(pairs) {
+                this._attempts = 0;
+                this._found = 0;
+                this._pairs = pairs / 2;
+                this._endGame = "";
+                this._name = null;
+            }
+            set addName(name) { this._name = name }
+            set addAttempts(num) { this._attempts += num }
+            set addFound(num) { this._found += num }
+            get attempts() { return this._attempts }
+            get found() { return this._found }
+            get pairs() { return this._pairs }
+        }
+
+        function cardsAndDivs() {
+            const cardDivs = document.querySelectorAll('.card');
+            let cardIns;
+            cardDivs.forEach((div, index) => {
+                cardIns = new Card(div.id);
+                cards.push(cardIns);
+            });
+        }
+
+        function randomInt(min, max) {
+            return Math.floor(min + Math.random() * (max + 1 - min));
+        }
+
+        function createImgArray() {
+            let picFromGallery = [...gallery];
+            let randImg;
+            do {
+                randImg = randomInt(0, picFromGallery.length - 1);
+                picFromGallery.splice(randImg, 1);
+            } while (picFromGallery.length !== numberOfCards / 2);
+            return picFromGallery;
+        }
+
+        function pic4pair() {
+            let picFromGallery = createImgArray();
+            picFromGallery.forEach((pic, index) => {
+                for (let i = 0; i < 2; i++) {
+                    let randCard;
+                    do {
+                        randCard = randomInt(0, numberOfCards - 1);
+                    } while (cards[randCard].cardImgSrc !== null)
+                    cards[randCard].picSrc = pic;
+                    cards[randCard].pairId = index;
+                }
+            });
+        }
+
+        function hideAllCards() {
+            cards.forEach((item) => {
+                item.cardDiv.childNodes[0].classList.toggle("flipCard");
+            });
+        }
+
+        function hideCards() {
+            pair.forEach((item) => {
+                item.cardDiv.childNodes[0].classList.toggle("flipCard");
+            });
+            pair = [];
+        }
+
+        function resetGame() {
+            if (cards[0] instanceof Card) {
+                cards = [];
+                pair = [];
+                userArray = [];
+                updateScore(false);
+            }
+        }
+        let userArray = [];
+        function addPlayer() {
+            let userIns;
+            let user2 = document.getElementById('user2');
+            let userNumber = document.getElementsByName('user');
+            userNumber.forEach((item) => {
+                if (item.checked) {
+                    userIns = item.value;
+                }
+            })
+            for (let i = 0; i < userIns; i++) {
+                userArray[i] = new GameScore(numberOfCards);
+                userArray[i].addName = `Player${i + 1}`
+            }
+            if (userIns === "2") {
+                user2.classList.remove('hide');
+            } else {
+                if (!user2.classList.contains('hide')) {
+                    user2.classList.add('hide');
+                }
+            }
+        }
+
+        let btnStart = document.getElementById("btnStart");
+        btnStart.addEventListener('click', startGame.bind(this));
+        function startGame() {
+            resetGame();
+            cardsAndDivs();
+            pic4pair();
+            setTimeout(hideAllCards, 2000);
+            addPlayer();
+        }
+
+        document.onclick = (e) => {
+            const cardContaine = document.querySelector(".cardContainer");
+            if (cardContaine.contains(e.target) && cards[0] instanceof Card) {
+                let divId;
+                let index;
+                if (pair.length < 2) {
+                    divId = e.target.id;
+                    index = cards.findIndex(el => el.cardDivId === divId);
+                    cards[index].showCard();
+                    pair.push(cards[index]);
+                }
+                if (pair.length === 2) {
+                    userArray[currentUser].addAttempts = 1;
+                    updateScore();
+                    if (pair[0].cardPairId === pair[1].cardPairId) {
+                        userArray[currentUser].addFound = 1;
+                        updateScore();
+                        pair[0].foundCardPair();
+                        pair[1].foundCardPair();
+                        pair = [];
+                    } else {
+                        setTimeout(hideCards, 2000);
+                        currentPlayer();
+                    }
+                }
+            }
+        }
+
+        let currentUser = 0;
+        function currentPlayer() {
+            let player1Turn = document.getElementById('player1Turn');
+            let player2Turn = document.getElementById('player2Turn');
+            if (userArray.length === 1) {
+                return;
+            }
+            if (currentUser === 0) {
+                player1Turn.classList.remove('turn');
+                player2Turn.classList.add('turn');
+                currentUser = 1;
+            } else {
+                player2Turn.classList.remove('turn');
+                player1Turn.classList.add('turn');
+                currentUser = 0;
+            }
+        }
+
+        function updateScore(reset) {
+            let scoreMessage = document.getElementById('scoreMessage');
+            let foundInput = document.getElementById('found');
+            let attemptsInput = document.getElementById('attempts');
+            let player1 = [foundInput, attemptsInput];
+            let foundInput2 = document.getElementById('found2');
+            let attemptsInput2 = document.getElementById('attempts2');
+            let player2 = [foundInput2, attemptsInput2]
+            let inputArr = [player1, player2];
+            if (reset === false) {
+                scoreMessage.innerHTML = "Find all the pairs!";
+                foundInput.value = 0;
+                attemptsInput.value = 0;
+                foundInput2.value = 0;
+                attemptsInput2.value = 0;
+            } else {
+                inputArr[currentUser][0].value = userArray[currentUser].found;
+                inputArr[currentUser][1].value = userArray[currentUser].attempts;
+                let theEnd = gameEnd();
+                if (theEnd !== "") {
+                    scoreMessage.innerHTML = theEnd;
+                }
+            }
+        }
+
+        function gameEnd() {
+            let sum = 0;
+            let winner = "";
+            userArray.forEach((item) => {
+                sum += item.found;
+            })
+            if (sum === userArray[0].pairs) {
+                if (userArray[0].found > userArray[1].found) {
+                    winner = "Player 1 is the winner!";
+                } else {
+                    winner = "Player 2 is the winner!";
+                }
+            }
+            return winner;
+        }
+
+    </script>
 </body>
+
 </html>
