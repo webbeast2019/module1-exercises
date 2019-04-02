@@ -1,30 +1,25 @@
 
-const ul = document.querySelector('ul');
-
-fetch('https://api.github.com/users')
+fetch('https://api.github.com/search/users?q=created:%3E=2019-01-01')
     .then(function (response) {
         return response.json();
     })
     .then(function (myJson) {
-        return myJson;
-    })
-    .then(function (users) {
-       printUsers(users);
-       ul.innerHTML = li;
+        myJson.items.forEach(user => {
+            addUser(user);
+        });
     });
 
-
-let li = '';
-
- function printUsers(users) {
-    users.forEach(user => {
-        const userName = user.login;
-        const userImg = user.avatar_url;
-        const userHTML = `<li>
-                            <img src=${userImg}>
-                            <h2>${userName}</h2>
-                        </li>`;
-        li += userHTML;
-    });
- }   
+function addUser(userData) {
+    const userNode = document.createElement('section');
+    userNode.className = 'user-card';
+    userNode.innerHTML = `
+            <section class="user-card ">
+                <img class="user-card img" src="${userData.avatar_url}">
+                <figure class="user-name">
+                    <h3>User name: <a href="${userData.html_url}"> ${userData.login} </a></h3>
+                </figure>
+            </section> 
+            `;
+    document.querySelector('.output').appendChild(userNode);
+}
 
