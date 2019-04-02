@@ -24,7 +24,7 @@ function shuffle(a) {
         a[j] = x;
     }
     return a;
-};
+}
 // Shuffle at web load
 shuffle(allCards);
 // function for display the card 
