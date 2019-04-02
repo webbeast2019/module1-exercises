@@ -1,22 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Find A Pair</title>
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <style>
-        body {
+<html>
 
-        }
-    </style>
+<head>
+    <title>Card Game</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <body>
-    <header>
-        <h1>>Find A Pair</h1>
-    </header>
+    <header>Memory Game</header>
     <main>
-        Content Here
+        <div class="gameState"></div>
+        <div class="board"></div>
+        <div class="buttons">
+            <button class="start">Restart</button>
+            <label for="numOfCards"><b>Size</b>
+                <select id="numOfCards">
+                    <option value="4">4</option>
+                    <option value="16" selected>16</option>
+                    <option value="36">36</option>
+                </select>
+            </label>
+        </div>
     </main>
+    <script src="app.js"></script>
 </body>
+
 </html>
