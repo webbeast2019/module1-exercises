@@ -1,0 +1,1 @@
+main{display:grid;grid-template-columns:repeat(4,22vh);grid-gap:5px;justify-content:center}.card{width:22vh;height:22vh;border-radius:12px;border:1px solid #7b80a3;overflow:hidden;box-shadow:0 4px 8px 0 rgba(0,0,0,.2)}.card>img{width:100%;height:100%}.hidden{display:none}
