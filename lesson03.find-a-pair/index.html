@@ -1,22 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Find A Pair</title>
     <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <style>
-        body {
-
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="./style/find-a-pair.css">
 </head>
+
 <body>
     <header>
-        <h1>>Find A Pair</h1>
+        <h1>Find A Pair</h1>
     </header>
+
+    <template id="card-template">
+        <div class="flip-container">
+            <div class="card">
+                <div class="card-front">
+                    <img alt="card front">
+                </div>
+                <div class="card-back">
+                    <img src="./img/cards/back.png" alt="card back">
+                </div>
+            </div>
+        </div>
+    </template>
+
     <main>
-        Content Here
+        <section class="game-board">
+            <p id="game-over" class="center hidden">Game Over</p>
+        </section>
     </main>
+
+    <script src="script/consts.js" type="module"></script>
+    <script src="script/utils.js" type="module"></script>
+    <script src="script/card.js" type="module"></script>
+    <script src="script/game.js" type="module"></script>
+    <script src="script/find-a-pair.js" type="module"></script>
 </body>
+
 </html>
