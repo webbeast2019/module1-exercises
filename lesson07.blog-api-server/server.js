@@ -14,7 +14,7 @@ contentTypes.set('json', 'application/json');
 let params;
 let searchParam;
 http.createServer(function (req, res) {
-    if(req.method != 'GET'){
+    if (req.method != 'GET') {
         handleResponse(res, 200, 'Only GET method is supported', 'text/plain');
         return;
     }
@@ -161,7 +161,7 @@ function isSeacrhPhraseIncluded(item, searchParams, seacrhText) {
         return true;
     } else {
         for (let i = 0; i < searchParams.length; i++) {
-            if (item[searchParams[i]].toString().toLowerCase().includes(seacrhText)){
+            if (item[searchParams[i]].toString().toLowerCase().includes(seacrhText)) {
                 return true;
             }
         }
