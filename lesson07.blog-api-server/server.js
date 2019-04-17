@@ -1,13 +1,12 @@
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
-const _ = require('./lodash.min');
 const api = require('./api.js');
 
 const port = 8080;
-const rawData={
-    posts : false,
-    comments : false
+const rawData = {
+    posts: false,
+    comments: false
 };
 
 fs.readFile("./data/post.json", function (err, data) {
@@ -60,23 +59,23 @@ http.createServer(function (req, res) {
     } else {
         const path = q.pathname.split('/');
         let data = '';
-        if (req.method ==='GET'){
+        if (req.method === 'GET') {
             switch (path.length) {
                 case 3:
-                    if ( q.query['sortBy']){
-                        data = api.getData(_.sortBy(rawData[path[2]],q.query['sortBy']), q.query);
-                    }else {
+                    if (q.query['sortBy']) {
+                        data = api.getData(_.sortBy(rawData[path[2]], q.query['sortBy']), q.query);
+                    } else {
                         data = api.getData(rawData[path[2]], q.query);
                     }
                     break;
                 case 4:
-                    data = api.getData(rawData[path[2]],{'id':path[3]});
+                    data = api.getData(rawData[path[2]], {'id': path[3]});
                     break;
                 case 5:
-                    data = api.getData(rawData[path[4]],{'postId':path[3]});
+                    data = api.getData(rawData[path[4]], {'postId': path[3]});
                     break;
             }
-        }else if (req.method==='POST'){
+        } else if (req.method === 'POST') {
 
         }
         res.writeHead(200, {'Content-Type': 'application/json'});

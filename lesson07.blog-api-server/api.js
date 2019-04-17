@@ -1,9 +1,6 @@
 module.exports.getData = getData;
 
 function getData(dataFile, filters = []) {
-    if (filters['sortBy']) {
-        delete filters['sortBy'];
-    }
     if (dataFile) {
         return (filterArray(JSON.parse(dataFile), filters));
     }
