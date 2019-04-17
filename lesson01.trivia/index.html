@@ -1,22 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
+
 <head>
     <title>Simple Trivia</title>
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
     <style>
         body {
+            background-image: url('https://mk0astronomynow9oh6g.kinstacdn.com/wp-content/uploads/2015/11/ejected_planet_940x500.jpg');
+            background-size: cover;
+            background-color: darkslateblue;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
 
+        .question li,
+        .question .result,
+        .question .solution {
+            font-size: 1.5em;
+            line-height: 1.5em;
+        }
+
+        .question li {
+            line-height: 1.5em;
+        }
+
+        .question li:hover {
+            color: yellow;
+            cursor: pointer;
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Simple Trivia</h1>
     </header>
     <main>
-        Content Here
+        <section class='question'>
+            <h2>What is the largest planet in the following list?</h2>
+            <ul id='answers'>
+                <li>Saturn</li>
+                <li>Venus</li>
+                <li>Uranus</li>
+                <li>Jupiter</li>
+                <li>Mars</li>
+            </ul>
+            <p id='result' class='result'></p>
+            <p id='solution' class='solution'></p>
+        </section>
     </main>
+
+    <script type='text/javascript'>
+        let resultElem = document.getElementById('result');
+        let solutionElem = document.getElementById('solution');
+        document.getElementById('answers').addEventListener('click', e => {
+            if (e.target && e.target.innerText === 'Jupiter') {
+                console.log('Right :)');
+                resultElem.innerText = 'Right!';
+                resultElem.style.color = 'limegreen';
+            }
+            else {
+                console.log('Wrong :(');
+                resultElem.innerText = 'Wrong!';
+                resultElem.style.color = 'red';
+            }
+            solutionElem.innerText = 'Jupiter is the largest planet (69,911 km / 43,441 miles) – 1,120% the size of Earth';
+        });
+    </script>
 </body>
+
 </html>
