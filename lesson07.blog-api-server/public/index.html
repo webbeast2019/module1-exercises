@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Blog Api Server</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h5>Blog Api Request</h5>
+        </div>     
+        <div class="input-group mb-3">
+                <input type="text" id="request" class="form-control" placeholder="Request example http://localhost:8080/posts?id=1" aria-label="Request" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" onclick="sendRequest()">Send request</button>
+                </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
