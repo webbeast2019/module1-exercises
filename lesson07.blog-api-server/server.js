@@ -1,87 +1,95 @@
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
-const api = require('./api.js');
+const _ = require('./lodash');
 
-const port = 8080;
-const rawData = {
-    posts: false,
-    comments: false
-};
-
-fs.readFile("./data/post.json", function (err, data) {
-    rawData.posts = data;
-});
-fs.readFile("./data/comment.json", function (err, data) {
-    rawData.comments = data;
-});
+const port = process.env.PORT || 8080;  // 8081 - local
 
 http.createServer(function (req, res) {
-    const q = url.parse(req.url, true);
+    const reqUrl = url.parse(req.url, true);
+    let pathname = reqUrl.pathname;
+    if (pathname[pathname.length - 1] === '/') {
+        pathname = pathname.substring(0, pathname.length - 1);
+    }
 
-    // load index.html
-    if (q.pathname === "/") {
-        fs.readFile("public/index.html", function (err, data) {
-            res.writeHead(200, {'Content-Type': 'text/html'});
-            res.write(data);
-            res.end();
+    if (pathname.match(/^\/posts$/i)) {
+        fs.readFile('public/posts.json', function (err, data) {
+            const sortBy = reqUrl.query.sortBy;
+            const userId = reqUrl.query.userId;
+            if (err) {
+                handleError(err, res);
+            } else {
+                if (sortBy) {
+                    data = sortData(data, sortBy);
+                }
+                if (userId) {
+                    data = filterItems(data, 'userId', userId)
+                }
+                handleSuccess(res, data);
+            }
+        });
+    }
+    else if (pathname.match(/^\/posts\/[0-9]+$/i)) {
+        const rx = /\/posts\/(.*)/i;
+        const id = rx.exec(pathname)[1];
+        fs.readFile('public/posts.json', function (err, data) {
+            if (err) {
+                handleError(err, res);
+            } else {
+                data = filterItems(data, 'id', id);
+                handleSuccess(res, data);
+            }
+        });
+    } else if (pathname.match(/^\/comments$/i)) {
+        fs.readFile('public/comments.json', function (err, data) {
+            const postId = reqUrl.query.postId;
+            if (err) {
+                handleError(err, res);
+            } else {
+                if (postId) {
+                    data = filterItems(data, 'postId', postId)
+                }
+                handleSuccess(res, data);
+            }
         });
 
-        //load files
-    } else if (q.pathname.substr(0, 5).toLowerCase() != "/api/") {
-        const fileName = q.pathname.substr(1);
-        const fileTypes = {
-            'html': 'text/html',
-            'htm': 'text/html',
-            'css': 'text/css',
-            'js': 'text/javascript',
-            'json': 'application/json'
-        };
-        const fileExt = fileName.split('.').pop();
-        const contentType = fileTypes[fileExt];
-        if (contentType) {
-            fs.readFile("public/" + fileName, function (err, data) {
-                if (err) {
-                    res.writeHead(404, {'Content-Type': contentType});
-                    res.end();
-                } else {
-                    res.writeHead(200, {'Content-Type': 'text/html'});
-                    res.write(data);
-                    res.end();
-                }
-            });
-        } else {
-            res.writeHead(404, {'Content-Type': 'text/html'});
-            res.end();
-        }
-
-        // Load API
     } else {
-        const path = q.pathname.split('/');
-        let data = '';
-        if (req.method === 'GET') {
-            switch (path.length) {
-                case 3:
-                    if (q.query['sortBy']) {
-                        data = api.getData(_.sortBy(rawData[path[2]], q.query['sortBy']), q.query);
-                    } else {
-                        data = api.getData(rawData[path[2]], q.query);
-                    }
-                    break;
-                case 4:
-                    data = api.getData(rawData[path[2]], {'id': path[3]});
-                    break;
-                case 5:
-                    data = api.getData(rawData[path[4]], {'postId': path[3]});
-                    break;
-            }
-        } else if (req.method === 'POST') {
-
-        }
-        res.writeHead(200, {'Content-Type': 'application/json'});
-        res.write(JSON.stringify(data));
-        res.end();
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        fs.createReadStream(__dirname + '/public/file.html').pipe(res);
     }
+
 }).listen(port, function () {
     console.log('Client is available at http://localhost:' + port);
 });
+
+
+function filterItems(data, filterProperty, filteredValue) {
+    data = JSON.parse(data);
+    const filteredData = data.filter((item) => {
+        return item[filterProperty].toString() === filteredValue;
+    });
+    return JSON.stringify(filteredData);
+};
+
+function handleError(err, res) {
+    if (err.code == 'ENOENT') {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.write('Resource no found');
+    }
+    else {
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.write('Server Error');
+    }
+}
+
+function handleSuccess(res, data) {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.write(data);
+    res.end();
+}
+
+function sortData(data, sortBy) {
+    data = JSON.parse(data);
+    data = _.sortBy(data, d => d[sortBy]);
+    return JSON.stringify(data);
+}
